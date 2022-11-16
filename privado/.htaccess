@@ -1,4 +1,0 @@
-AuthName "Acceso Restrinxido a este recurso" 
-AuthType Basic 
-AuthUserFile /var/www/.htpasswd 
-Require valid-user
