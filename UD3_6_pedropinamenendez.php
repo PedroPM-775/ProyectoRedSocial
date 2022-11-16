@@ -7,7 +7,7 @@
     Autor:Pedro Pina Menéndez
 
     Data modificación: 06/10/2022
-    Versión 1.0
+    Versión 1.0 
 
 */
 
