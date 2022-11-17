@@ -5,13 +5,11 @@
 
         Autor:Pedro Pina Menéndez
 
-        Data modificación: 10/11/2022
+        Data modificación: 17/11/2022
         Versión 1.0
 
     */
     ?>
-
-
     <html>
     <head>
         <title>Formulario</title>
@@ -60,27 +58,9 @@
 
         $datos = leerCSV($archivo);
         $cabecera = $datos[0];
-
-        $errores = [];
+        $errores = array();
         //! Funcion para validar el formulario
-        function validarFormulario(){
-            $errores = [];
-            $nombre = $_POST['nome'];
-            if(preg_match('~[0-9]+~', $nombre)){
-            array_push($errores,"nombre");
-            }
-            $area = $_POST['textarea'];
-            if(preg_match('[0-9]', $area)){
-            array_push($errores, "textarea");
-            }
-            $username = $_POST['nome'];
-            if(preg_match('~[0-9]+~', $username)){
-            array_push($errores,"nombreusuario");
-            }
-            
-            
-
-        }
+        
         //@ Codigo para comprobar si el formulario tiene errores y si ha sido enviado o si se ha accedido a la pagina
         if(isset($_POST['enviar'])){
             
@@ -88,6 +68,14 @@
             array_push($errores, "nome");
             
             }
+            if(isset($_POST['nome'])){
+                $nombre = $_POST['nome'];
+                $nombretrim = ltrim($nombre);
+                if (!preg_match("/^[a-zA-Z]+$/", $nombretrim)){
+                array_push($errores,"El nombre contiene caracteres no permitidos");
+                }
+             }
+
             if(!isset($_POST['contrasinal'])){
             array_push($errores, "contrasinal");
             
@@ -98,16 +86,36 @@
             }
             if(!isset($_POST['email'])){
             array_push($errores, "email");
-            
+            }
+
+            if(isset($_POST['email'])){
+                $email = $_POST['email'];
+                if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+                    array_push($errores, "El formato de email no es correcto");
+                }
             }
             if(!isset($_POST['telefono'])){
             array_push($errores, "telefono");
             
             }
+
+            if(isset($_POST['telefono'])){
+                $numero = $_POST['telefono'];
+                if(strlen($numero) === 9) {
+                    if (!preg_match('/^[0-9]+$/',$numero)) { 
+                        array_push($errores, "El formato del telefono no es correcto, solo debe tener numeros");
+                }
+            }
+            else{
+                array_push($errores, "El telefono es del tamaño incorrecto, debe de ser de 9 cifras");
+            }
+        }
+
             if(!isset($_POST['valores'])){
             array_push($errores, "valores");
             
             }
+
             if(!isset($_POST['cajas'])){
             array_push($errores, "cajas");
             
@@ -120,9 +128,25 @@
             array_push($errores, "textarea");
             
             }
+
+            if(isset($_POST['textarea'])){
+                $area = $_POST['textarea'];
+                $areatrim = ltrim($area);
+                if(!preg_match("/^[a-zA-Z]+$/", $areatrim)){
+                array_push($errores, "El textarea contiene caracteres no permitidos");
+                }
+            }
+
             if(!isset($_POST['username'])){
             array_push($errores, "username");
             
+            }
+            if(isset($_POST['username'])){
+                $username = $_POST['username'];
+                $nombretrim = ltrim($username);
+                if(!preg_match("/^[a-zA-Z]+$/", $nombretrim)){
+                    array_push($errores,"El nombre de usuario contiene caracteres no permitidos");
+                }
             }
             
             if(!isset($_POST['marcas'])){
@@ -132,9 +156,12 @@
             if(!isset($_POST['ciudades'])){
             array_push($errores, "ciudades");
             }
-
-
-        }
+            
+            
+             
+            
+           
+    }
         //@ Si no hay errores y se ha enviado, imprime por pantalla un mensaje de todo correcto
         if(isset($_POST['enviar'])&& count($errores)==0){
 
@@ -206,13 +233,7 @@
         //@ Si hay errores o no se ha enviado, se imprime una lista de errores y el formulario
 
         else{
-            if(count($errores)!=0){
-                echo "<h1>Faltan los siguientes datos.</h1>";
-                for ($i=0; $i < count($errores); $i++) { 
-                    echo $errores[$i];
-                    echo "</br>";
-            }
-            }
+            
             ?>
 
 
@@ -241,10 +262,22 @@
 
             </table>
 
-            <br> <br> <br>
+            <br> 
 
 
+                <?php 
+                if(count($errores)!=0){
+                    echo "<div id='caja'>";
+                    echo "<h1>Faltan los siguientes datos.</h1>";
+                    for ($i=0; $i< count($errores); $i++) { 
+                        echo $errores[$i];
+                        echo "</br>";
+                }
+                echo "</div>";
+                }
+                ?>
 
+            <br> <br>
                 
 
                     <form name="formulario" action='formulario.php' method="post">
@@ -325,10 +358,10 @@
 
                         <label for="lang">Desplegable</label>
                         <select name="marcas" id="lang">
-                            <option value="opel" <?php if(isset($_POST['marcas'])&& in_array("opel", $_POST['marcas'])) echo "selected"; ?>>opel</option>
-                            <option value="ferrari"  <?php if(isset($_POST['marcas'])&& in_array("ferrari", $_POST['marcas'])) echo "selected"; ?>>ferrari</option>
-                            <option value="ford"  <?php if(isset($_POST['marcas'])&& in_array("ford", $_POST['marcas'])) echo "selected"; ?>>ford</option>
-                            <option value="audi"  <?php if(isset($_POST['marcas'])&& in_array("audi", $_POST['marcas'])) echo "selected"; ?>>audi</option>
+                            <option value="opel" <?php if(isset($_POST['marcas'])&& strcasecmp("opel", $_POST['marcas'])) echo "selected"; ?>>opel</option>
+                            <option value="ferrari"  <?php if(isset($_POST['marcas'])&& strcasecmp("ferrari", $_POST['marcas'])) echo "selected"; ?>>ferrari</option>
+                            <option value="ford"  <?php if(isset($_POST['marcas'])&& strcasecmp("ford", $_POST['marcas'])) echo "selected"; ?>>ford</option>
+                            <option value="audi"  <?php if(isset($_POST['marcas'])&& strcasecmp("audi", $_POST['marcas'])) echo "selected"; ?>>audi</option>
                         </select> </br></br>
                     
                             <label for="lang">No Desplegable</label>
