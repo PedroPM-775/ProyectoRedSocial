@@ -22,7 +22,7 @@
 <body>   
         <?php
 
-        $archivo = "tablas.csv";
+        $archivo = "usuarios.csv";
         $datos = array();
 
         //! Funcion para leer el archivo CSV
@@ -77,11 +77,14 @@
                 array_push($errores,"El nombre contiene caracteres no permitidos");
                 }
              }
+             //@ Valores validos para nombre: Pedro, Jose
+             //@ Valores no validos para nombre: adsf41234, "X Æ A-12", @#~adefesio, 8754apepe, o83hara
 
             if(!isset($_POST['contrasinal'])){
             array_push($errores, "contrasinal");
             
             }
+            //@ Cualquier valor es valido como contraseña
             if(!isset($_POST['contrasinalrep'])){
             array_push($errores, "contrasinalrep");
             
@@ -96,6 +99,10 @@
                     array_push($errores, "El formato de email no es correcto");
                 }
             }
+            //@ Valores validos para email: PEPITO@gmail.com, josefina@yahoo.com
+            //@ Valores no validos para email(separados por comas): @jose@josefagmail@.com, 1234@1234987.com.@gmail,
+            //@ Agargfunkel@yahoo@extremecom
+
             if(!isset($_POST['telefono'])){
             array_push($errores, "telefono");
             
@@ -108,11 +115,13 @@
                         array_push($errores, "El formato del telefono no es correcto, solo debe tener numeros");
                 }
             }
+         
             else{
                 array_push($errores, "El telefono es del tamaño incorrecto, debe de ser de 9 cifras");
             }
         }
-
+            //@ Valores validos para telefono: 987654321, 654987321
+            //@Valores no validos para telefono: lkandf2ql3jawidf, 89756321868975, gma21i4321qs
             if(!isset($_POST['valores'])){
             array_push($errores, "valores");
             
@@ -126,18 +135,20 @@
             array_push($errores, "nacimiento");
             
             }                
-            if(!isset($_POST['textarea'])){
-            array_push($errores, "textarea");
+            if(!isset($_POST['descripcion'])){
+            array_push($errores, "descripcion");
             
             }
 
-            if(isset($_POST['textarea'])){
-                $area = $_POST['textarea'];
+            if(isset($_POST['descripcion'])){
+                $area = $_POST['descripcion'];
                 $areatrim = ltrim($area);
                 if(!preg_match("/^[a-zA-Z]+$/", $areatrim)){
-                array_push($errores, "El textarea contiene caracteres no permitidos");
+                array_push($errores, "La descripcion contiene caracteres no permitidos");
                 }
             }
+            //@ Valores validos para el textarea: jkhwsidfunajekwnalsjkdflkjadfs, hola buenos dias mi nombre es pedro
+            //@ Valores no validos para el textarea: lasfljkqwuoiasjlkfwqoiuzkjlcnvpuian098172349867wd, lansflkjn3987478w, h0la mi nombr3 es p3dr0
 
             if(!isset($_POST['username'])){
             array_push($errores, "username");
@@ -150,19 +161,22 @@
                     array_push($errores,"El nombre de usuario contiene caracteres no permitidos");
                 }
             }
+
+              //@ Valores validos para nombre: Pedro, ImVorte
+             //@ Valores no validos para nombre: adsf41234, "X Æ A-12", @#~adefesio, 8754apepe, o83hara
             
-            if(!isset($_POST['marcas'])){
-            array_push($errores, "marcas");
+            if(!isset($_POST['genero'])){
+            array_push($errores, "genero");
             
             }
-            if(!isset($_POST['ciudades'])){
-            array_push($errores, "ciudades");
+            if(!isset($_POST['servidor'])){
+            array_push($errores, "servidor");
             }
+            if(!isset($_POST['rol'])){
+                array_push($errores, "rol");
+                
+                }
             
-            
-             
-            
-           
     }
         //@ Si no hay errores y se ha enviado, imprime por pantalla un mensaje de todo correcto
         if(isset($_POST['enviar'])&& count($errores)==0){
@@ -187,7 +201,7 @@
                 $string = $_POST['nacimiento'];
                 $stringtrim = ltrim($string);
                 array_push($introducir, $stringtrim);
-                $area = $_POST['textarea'];
+                $area = $_POST['descripcion'];
                 $areabuena = str_replace('"', "", $area);
                 $areabuenatrim = ltrim($areabuena);
             
@@ -195,9 +209,10 @@
                 $string = $_POST['username'];
                 $stringtrim = ltrim($string);
                 array_push($introducir, $stringtrim);
-                array_push($introducir, $_POST['marcas']);
-                $valoresaa = implode( '-', $_POST['ciudades']);
+                array_push($introducir, $_POST['genero']);
+                $valoresaa = implode( '-', $_POST['servidor']);
                 array_push($introducir, $valoresaa);
+                array_push($introducir, $_POST['rol']);
                 
                 array_push($datos, $introducir); 
                 escribirCSV($archivo, $datos);
@@ -227,7 +242,7 @@
             ?>
             </table> 
             </br>
-                <a href="formulario.php"> Volver al formulario de registro</a>
+                <a href="usuarios.php"> Volver al formulario de registro</a>
             <?php
 
 
@@ -282,7 +297,7 @@
             <br> <br>
                 
 
-                    <form name="formulario" action='formulario.php' method="post">
+                    <form name="usuarios" action='usuarios.php' method="post">
                         <label> Nombre de Usuario </label> <input type="text" name="nome" value="<?php if(isset($_POST['nome'])) echo $_POST['nome'] ?>" required/> </br></br>
                     
                     
@@ -302,20 +317,18 @@
                     
 
                         <fieldset>
-                        <legend> radioButtons </legend>
+                        <legend> ¿Que buscas en Uchagram? </legend>
                             <input type="radio" id="valor1" name="valores[]" value="valor1" <?php if(isset($_POST['valores'])&& in_array("valor1", $_POST['valores'])) echo "checked"; ?> >
-                            <label for="valor1">Opcion 1</label><br>
-
-
+                            <label for="valor1">Pasarmelo Bien</label><br>
                             <input type="radio" id="valor2" name="valores[]" value="valor2" <?php if(isset($_POST['valores'])&& in_array("valor2", $_POST['valores'])) echo "checked"; ?>>
-                            <label for="valor2">Opcion 2</label><br>
+                            <label for="valor2">Hacer amigos</label><br>
                             <input type="radio" id="valor3" name="valores[]" value="valor3" <?php if(isset($_POST['valores'])&& in_array("valor3", $_POST['valores'])) echo "checked"; ?> >
-                            <label for="valor3">Opcion 3</label></br></br>
+                            <label for="valor3">Jugar a los juegos de la pagina</label></br></br>
                         </fieldset>
 
 
                         <fieldset>
-                        <legend> CheckBoxes </legend>
+                        <legend> ¿Que musica te gusta? </legend>
                             <input type="checkbox" id="checkbox1" name="cajas[]" value="cajas1"
                             
                             
@@ -326,7 +339,7 @@
                             >
                             
                             
-                            <label for="checkbox1"> Checkbox 1</label><br>
+                            <label for="checkbox1"> Rock</label><br>
 
                             <input type="checkbox" id="checkbox2" name="cajas[]" value="cajas2" 
                             <?php if(isset($_POST['cajas']) 
@@ -334,23 +347,23 @@
                             
                             ?>
                             >
-                            <label for="checkbox2"> Checkbox 2</label><br>
+                            <label for="checkbox2"> Pop</label><br>
                             <input type="checkbox" id="checkbox3" name="cajas[]" value="cajas3"
                             <?php if(isset($_POST['cajas']) 
                             && in_array("cajas3", $_POST['cajas'])) echo "checked"; 
                             
                             ?>
                             >
-                            <label for="checkbox3"> checkbox 3</label></br></br>
+                            <label for="checkbox3"> Flamenco</label></br></br>
                         </fieldset>
 
                     
-
+                        <br>
                         <label> Fecha de Nacimiento </label> <input type="date" name="nacimiento" value="<?php if(isset($_POST['nacimiento'])) echo $_POST['nacimiento'] ?>" required/></br></br>
                         
                     
 
-                        <label> TextArea </label> <textarea name="textarea" required> <?php if(isset($_POST['textarea'])) echo $_POST['textarea'] ?></textarea></br></br>
+                        <label> Descripcion sobre ti </label> <textarea name="descripcion" required><?php if(isset($_POST['descripcion'])) echo $_POST['descripcion'] ?></textarea></br></br>
                     
                     
 
@@ -358,23 +371,29 @@
                         
                         
 
-                        <label for="lang">Desplegable</label>
-                        <select name="marcas" id="lang">
-                            <option value="opel" <?php if(isset($_POST['marcas'])&& strcasecmp("opel", $_POST['marcas'])) echo "selected"; ?>>opel</option>
-                            <option value="ferrari"  <?php if(isset($_POST['marcas'])&& strcasecmp("ferrari", $_POST['marcas'])) echo "selected"; ?>>ferrari</option>
-                            <option value="ford"  <?php if(isset($_POST['marcas'])&& strcasecmp("ford", $_POST['marcas'])) echo "selected"; ?>>ford</option>
-                            <option value="audi"  <?php if(isset($_POST['marcas'])&& strcasecmp("audi", $_POST['marcas'])) echo "selected"; ?>>audi</option>
+                        <label for="lang">Genero</label>
+                        <select name="genero" id="lang">
+                            <option value="hombre" <?php if(isset($_POST['genero'])&& strcasecmp("hombre", $_POST['genero'])) echo "selected"; ?>>Hombre</option>
+                            <option value="mujer"  <?php if(isset($_POST['genero'])&& strcasecmp("mujer", $_POST['genero'])) echo "selected"; ?>>Mujer</option>
+                            <option value="otro"  <?php if(isset($_POST['genero'])&& strcasecmp("otro", $_POST['genero'])) echo "selected"; ?>>Otro</option>
                         </select> </br></br>
                     
-                            <label for="lang">No Desplegable</label>
-                        <select name="ciudades[]" multiple="yes" size="3">
+                            <label for="lang">Servidor</label>
+                        <select name="servidor[]" multiple="yes" size="3">
 
-                            <option value="newyork" <?php if(isset($_POST['ciudades'])&& in_array("newyork", $_POST['ciudades'])) echo "selected"; ?>>New York </option>
-                            <option value="bucharest" <?php if(isset($_POST['ciudades'])&& in_array("bucharest", $_POST['ciudades'])) echo "selected"; ?>>Bucharest</option>
-                            <option value="madrid" <?php if(isset($_POST['ciudades'])&& in_array("madrid", $_POST['ciudades'])) echo "selected"; ?>>Madrid</option>
+                            <option value="europa" <?php if(isset($_POST['servidor'])&& in_array("europa", $_POST['servidor'])) echo "selected"; ?>>Europa</option>
+                            <option value="america" <?php if(isset($_POST['servidor'])&& in_array("america", $_POST['servidor'])) echo "selected"; ?>>America</option>
+                            <option value="asia" <?php if(isset($_POST['servidor'])&& in_array("asia", $_POST['servidor'])) echo "selected"; ?>>Asia</option>
 
                         </select> <br />
+                        <br />
                     
+                        <label for="lang">Rol</label>
+                        <select name="rol" id="lang">
+                            <option value="Usuario" <?php if(isset($_POST['marcas'])&& strcasecmp("Usuario", $_POST['rol'])) echo "selected"; ?>>Usuario</option>
+                            <option value="Administrador"  <?php if(isset($_POST['marcas'])&& strcasecmp("Administrador", $_POST['rol'])) echo "selected"; ?>>Administrador</option>
+                        </select> </br></br>
+
 
                         <input type="submit" name = 'enviar' value="enviar"/></br></br>
 

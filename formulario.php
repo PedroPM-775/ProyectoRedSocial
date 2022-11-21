@@ -75,11 +75,14 @@
                 array_push($errores,"El nombre contiene caracteres no permitidos");
                 }
              }
+             //@ Valores validos para nombre: Pedro, Jose
+             //@ Valores no validos para nombre: adsf41234, "X Æ A-12", @#~adefesio, 8754apepe, o83hara
 
             if(!isset($_POST['contrasinal'])){
             array_push($errores, "contrasinal");
             
             }
+            //@ Cualquier valor es valido como contraseña
             if(!isset($_POST['contrasinalrep'])){
             array_push($errores, "contrasinalrep");
             
@@ -94,6 +97,10 @@
                     array_push($errores, "El formato de email no es correcto");
                 }
             }
+            //@ Valores validos para email: PEPITO@gmail.com, josefina@yahoo.com
+            //@ Valores no validos para email(separados por comas): @jose@josefagmail@.com, 1234@1234987.com.@gmail,
+            //@ Agargfunkel@yahoo@extremecom
+
             if(!isset($_POST['telefono'])){
             array_push($errores, "telefono");
             
@@ -106,11 +113,13 @@
                         array_push($errores, "El formato del telefono no es correcto, solo debe tener numeros");
                 }
             }
+         
             else{
                 array_push($errores, "El telefono es del tamaño incorrecto, debe de ser de 9 cifras");
             }
         }
-
+            //@ Valores validos para telefono: 987654321, 654987321
+            //@Valores no validos para telefono: lkandf2ql3jawidf, 89756321868975, gma21i4321qs
             if(!isset($_POST['valores'])){
             array_push($errores, "valores");
             
@@ -136,6 +145,8 @@
                 array_push($errores, "El textarea contiene caracteres no permitidos");
                 }
             }
+            //@ Valores validos para el textarea: jkhwsidfunajekwnalsjkdflkjadfs, hola buenos dias mi nombre es pedro
+            //@ Valores no validos para el textarea: lasfljkqwuoiasjlkfwqoiuzkjlcnvpuian098172349867wd, lansflkjn3987478w, h0la mi nombr3 es p3dr0
 
             if(!isset($_POST['username'])){
             array_push($errores, "username");
@@ -148,6 +159,9 @@
                     array_push($errores,"El nombre de usuario contiene caracteres no permitidos");
                 }
             }
+
+              //@ Valores validos para nombre: Pedro, ImVorte
+             //@ Valores no validos para nombre: adsf41234, "X Æ A-12", @#~adefesio, 8754apepe, o83hara
             
             if(!isset($_POST['marcas'])){
             array_push($errores, "marcas");
