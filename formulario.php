@@ -132,7 +132,21 @@
             if(!isset($_POST['nacimiento'])){
             array_push($errores, "nacimiento");
             
-            }                
+            }
+            if(isset($_POST['nacimiento'])){
+                $fecha = $_POST['nacimiento'];
+                echo $fecha;
+                $regexfecha = "/^[0-9]{4}\\/[0-9]{1,2}\\/[0-9]{2}$/"; 
+
+                if(!preg_match($regexfecha,$fecha)){
+                array_push($errores, "La fecha no es valida");
+                }
+
+                
+               
+
+            }
+            
             if(!isset($_POST['textarea'])){
             array_push($errores, "textarea");
             
