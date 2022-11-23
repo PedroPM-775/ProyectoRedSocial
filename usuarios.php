@@ -118,8 +118,8 @@
          
             else{
                 array_push($errores, "El telefono es del tamaño incorrecto, debe de ser de 9 cifras");
-            }
-        }
+                }
+             }
             //@ Valores validos para telefono: 987654321, 654987321
             //@Valores no validos para telefono: lkandf2ql3jawidf, 89756321868975, gma21i4321qs
             if(!isset($_POST['valores'])){
@@ -250,10 +250,8 @@
         //@ Si hay errores o no se ha enviado, se imprime una lista de errores y el formulario
 
         else{
-            
+ 
             ?>
-
-
             <table aria-describedby="Tabla rellena con datos de tablas.csv">
                 <caption>Tabla de datos</caption>
                 <?php 
@@ -278,7 +276,6 @@
                 ?>
 
             </table>
-
             <br> 
 
 
@@ -295,26 +292,17 @@
                 ?>
 
             <br> <br>
-                
-
                     <form name="usuarios" action='usuarios.php' method="post">
                         <label> Nombre de Usuario </label> <input type="text" name="nome" value="<?php if(isset($_POST['nome'])) echo $_POST['nome'] ?>" required/> </br></br>
                     
-                    
                         <label> Contraseña </label> <input type="password" name="contrasinal" value="<?php if(isset($_POST['contrasinal'])) echo $_POST['contrasinal'] ?>" required/></br></br>
-                    
-                    
 
                         <label> Confirme la Contraseña </label> <input type="password" name="contrasinalrep" value="<?php if(isset($_POST['contrasinalrep'])) echo $_POST['contrasinalrep'] ?>" required/></br></br>
-                    
 
-                        <label> Correo Electronico </label> <input type="email" name="email" value="<?php if(isset($_POST['email'])) echo $_POST['email'] ?>" required/></br></br>
-                    
-                    
+                        <label> Correo Electronico </label> <input type="email" name="email" value="<?php if(isset($_POST['email'])) echo $_POST['email'] ?>" required/></br></br>              
 
                         <label> Telefono </label> <input type="tel" name="telefono" value="<?php if(isset($_POST['telefono'])) echo $_POST['telefono'] ?>" required/></br></br>
-                    
-                    
+      
 
                         <fieldset>
                         <legend> ¿Que buscas en Uchagram? </legend>
@@ -326,7 +314,6 @@
                             <label for="valor3">Jugar a los juegos de la pagina</label></br></br>
                         </fieldset>
 
-
                         <fieldset>
                         <legend> ¿Que musica te gusta? </legend>
                             <input type="checkbox" id="checkbox1" name="cajas[]" value="cajas1"
@@ -337,75 +324,55 @@
                             
                             ?>
                             >
-                            
-                            
+         
                             <label for="checkbox1"> Rock</label><br>
 
                             <input type="checkbox" id="checkbox2" name="cajas[]" value="cajas2" 
                             <?php if(isset($_POST['cajas']) 
-                            && in_array("cajas2", $_POST['cajas'])) echo "checked"; 
-                            
-                            ?>
+                            && in_array("cajas2", $_POST['cajas'])) echo "checked"; ?>
                             >
                             <label for="checkbox2"> Pop</label><br>
                             <input type="checkbox" id="checkbox3" name="cajas[]" value="cajas3"
                             <?php if(isset($_POST['cajas']) 
                             && in_array("cajas3", $_POST['cajas'])) echo "checked"; 
-                            
                             ?>
                             >
                             <label for="checkbox3"> Flamenco</label></br></br>
                         </fieldset>
-
                     
                         <br>
-                        <label> Fecha de Nacimiento </label> <input type="date" name="nacimiento" value="<?php if(isset($_POST['nacimiento'])) echo $_POST['nacimiento'] ?>" required/></br></br>
-                        
-                    
+                        <label> Fecha de Nacimiento </label> <input type="date" name="nacimiento" value="<?php if(isset($_POST['nacimiento'])) echo $_POST['nacimiento'] ?>" required/></br></br>                
 
-                        <label> Descripcion sobre ti </label> <textarea name="descripcion" required><?php if(isset($_POST['descripcion'])) echo $_POST['descripcion'] ?></textarea></br></br>
-                    
-                    
+                        <label> Descripcion sobre ti </label> <textarea name="descripcion" required><?php if(isset($_POST['descripcion'])) echo $_POST['descripcion'] ?></textarea></br></br>                  
 
                         <label> Nombre de Usuario </label> <input type="text" name="username" value="<?php if(isset($_POST['username'])) echo $_POST['username'] ?>" required/></br></br>
-                        
-                        
-
+                                    
                         <label for="lang">Genero</label>
                         <select name="genero" id="lang">
                             <option value="hombre" <?php if(isset($_POST['genero'])&& strcasecmp("hombre", $_POST['genero'])) echo "selected"; ?>>Hombre</option>
                             <option value="mujer"  <?php if(isset($_POST['genero'])&& strcasecmp("mujer", $_POST['genero'])) echo "selected"; ?>>Mujer</option>
                             <option value="otro"  <?php if(isset($_POST['genero'])&& strcasecmp("otro", $_POST['genero'])) echo "selected"; ?>>Otro</option>
                         </select> </br></br>
-                    
+                        
                             <label for="lang">Servidor</label>
                         <select name="servidor[]" multiple="yes" size="3">
-
                             <option value="europa" <?php if(isset($_POST['servidor'])&& in_array("europa", $_POST['servidor'])) echo "selected"; ?>>Europa</option>
                             <option value="america" <?php if(isset($_POST['servidor'])&& in_array("america", $_POST['servidor'])) echo "selected"; ?>>America</option>
                             <option value="asia" <?php if(isset($_POST['servidor'])&& in_array("asia", $_POST['servidor'])) echo "selected"; ?>>Asia</option>
-
                         </select> <br />
                         <br />
-                    
+
                         <label for="lang">Rol</label>
                         <select name="rol" id="lang">
                             <option value="Usuario" <?php if(isset($_POST['marcas'])&& strcasecmp("Usuario", $_POST['rol'])) echo "selected"; ?>>Usuario</option>
                             <option value="Administrador"  <?php if(isset($_POST['marcas'])&& strcasecmp("Administrador", $_POST['rol'])) echo "selected"; ?>>Administrador</option>
                         </select> </br></br>
 
-
                         <input type="submit" name = 'enviar' value="enviar"/></br></br>
-
                         <input type="reset" name = 'reset' value="resetear"/></br></br>
-
-
-
-
                     </form>
                     <?php
         }
-        ?>
-    
+        ?>   
 </body>
 </html>

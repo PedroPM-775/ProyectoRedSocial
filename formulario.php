@@ -5,8 +5,8 @@
 
         Autor:Pedro Pina Menéndez
 
-        Data modificación: 17/11/2022
-        Versión 1.0
+        Data modificación: 23/11/2022
+        Versión 2.0
 
     */
     ?>
@@ -82,10 +82,32 @@
             array_push($errores, "contrasinal");
             
             }
+            if(isset($_POST['contrasinal'])){
+                $contrasena = $_POST['contrasinal'];
+                if(strlen($contrasena) > 8) {
+                    if (!preg_match('/[a-zA-Z0-9]+$/',$contrasena)) { 
+                        array_push($errores, "El formato de la contraseña no es correcto, no debe contener simbolos extraños");
+                }
+            }
+         
+            else{
+                array_push($errores, "La contraseña es del tamaño incorrecto, debe de ser de al menos 8 cifras");
+            }
+            }
             //@ Cualquier valor es valido como contraseña
             if(!isset($_POST['contrasinalrep'])){
             array_push($errores, "contrasinalrep");
-            
+            }
+            if(isset($_POST['contrasinalrep'])){
+                $contra1 = $_POST['contrasinal'];
+                echo $contra1;
+                $contra2 = $_POST['contrasinalrep'];
+                echo $contra2;
+                echo "<br>";
+                echo strcmp($contra1, $contra2);
+                if($contra1!= $contra2){
+                    array_push($errores, "Las contraseñas no coinciden");
+                }
             }
             if(!isset($_POST['email'])){
             array_push($errores, "email");
@@ -119,7 +141,7 @@
             }
         }
             //@ Valores validos para telefono: 987654321, 654987321
-            //@Valores no validos para telefono: lkandf2ql3jawidf, 89756321868975, gma21i4321qs
+            //@ Valores no validos para telefono: lkandf2ql3jawidf, 89756321868975, gma21i4321qs
             if(!isset($_POST['valores'])){
             array_push($errores, "valores");
             
@@ -135,16 +157,11 @@
             }
             if(isset($_POST['nacimiento'])){
                 $fecha = $_POST['nacimiento'];
-                echo $fecha;
-                $regexfecha = "/^[0-9]{4}\\/[0-9]{1,2}\\/[0-9]{2}$/"; 
+                $regexfecha = "/^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2}/"; 
 
                 if(!preg_match($regexfecha,$fecha)){
                 array_push($errores, "La fecha no es valida");
                 }
-
-                
-               
-
             }
             
             if(!isset($_POST['textarea'])){
@@ -183,11 +200,7 @@
             }
             if(!isset($_POST['ciudades'])){
             array_push($errores, "ciudades");
-            }
-            
-            
-             
-            
+            }        
            
     }
         //@ Si no hay errores y se ha enviado, imprime por pantalla un mensaje de todo correcto
@@ -227,8 +240,7 @@
                 
                 array_push($datos, $introducir); 
                 escribirCSV($archivo, $datos);
-                
-            
+
                 ?>
                 <table aria-describedby="Tabla rellena con datos de tablas.csv">
             <caption>Tabla de datos</caption>
@@ -255,16 +267,11 @@
             </br>
                 <a href="formulario.php"> Volver al formulario de registro</a>
             <?php
-
-
         }
         //@ Si hay errores o no se ha enviado, se imprime una lista de errores y el formulario
 
-        else{
-            
+        else{   
             ?>
-
-
             <table aria-describedby="Tabla rellena con datos de tablas.csv">
                 <caption>Tabla de datos</caption>
                 <?php 
@@ -285,14 +292,9 @@
                     }
                     echo "</tr>";
                 }
-
                 ?>
-
             </table>
-
             <br> 
-
-
                 <?php 
                 if(count($errores)!=0){
                     echo "<div id='caja'>";
@@ -306,26 +308,17 @@
                 ?>
 
             <br> <br>
-                
 
                     <form name="formulario" action='formulario.php' method="post">
                         <label> Nombre de Usuario </label> <input type="text" name="nome" value="<?php if(isset($_POST['nome'])) echo $_POST['nome'] ?>" required/> </br></br>
-                    
-                    
-                        <label> Contraseña </label> <input type="password" name="contrasinal" value="<?php if(isset($_POST['contrasinal'])) echo $_POST['contrasinal'] ?>" required/></br></br>
-                    
-                    
+                                     
+                        <label> Contraseña </label> <input type="password" name="contrasinal" value="<?php if(isset($_POST['contrasinal'])) echo $_POST['contrasinal'] ?>" required/></br></br>                  
 
-                        <label> Confirme la Contraseña </label> <input type="password" name="contrasinalrep" value="<?php if(isset($_POST['contrasinalrep'])) echo $_POST['contrasinalrep'] ?>" required/></br></br>
-                    
+                        <label> Confirme la Contraseña </label> <input type="password" name="contrasinalrep" value="<?php if(isset($_POST['contrasinalrep'])) echo $_POST['contrasinalrep'] ?>" required/></br></br>                  
 
                         <label> Correo Electronico </label> <input type="email" name="email" value="<?php if(isset($_POST['email'])) echo $_POST['email'] ?>" required/></br></br>
-                    
-                    
 
                         <label> Telefono </label> <input type="tel" name="telefono" value="<?php if(isset($_POST['telefono'])) echo $_POST['telefono'] ?>" required/></br></br>
-                    
-                    
 
                         <fieldset>
                         <legend> radioButtons </legend>
@@ -350,8 +343,7 @@
                             
                             ?>
                             >
-                            
-                            
+     
                             <label for="checkbox1"> Checkbox 1</label><br>
 
                             <input type="checkbox" id="checkbox2" name="cajas[]" value="cajas2" 
@@ -370,20 +362,12 @@
                             <label for="checkbox3"> checkbox 3</label></br></br>
                         </fieldset>
 
-                    
-
                         <label> Fecha de Nacimiento </label> <input type="date" name="nacimiento" value="<?php if(isset($_POST['nacimiento'])) echo $_POST['nacimiento'] ?>" required/></br></br>
                         
-                    
-
                         <label> TextArea </label> <textarea name="textarea" required> <?php if(isset($_POST['textarea'])) echo $_POST['textarea'] ?></textarea></br></br>
                     
-                    
-
                         <label> Nombre de Usuario </label> <input type="text" name="username" value="<?php if(isset($_POST['username'])) echo $_POST['username'] ?>" required/></br></br>
                         
-                        
-
                         <label for="lang">Desplegable</label>
                         <select name="marcas" id="lang">
                             <option value="opel" <?php if(isset($_POST['marcas'])&& strcasecmp("opel", $_POST['marcas'])) echo "selected"; ?>>opel</option>
@@ -394,26 +378,16 @@
                     
                             <label for="lang">No Desplegable</label>
                         <select name="ciudades[]" multiple="yes" size="3">
-
                             <option value="newyork" <?php if(isset($_POST['ciudades'])&& in_array("newyork", $_POST['ciudades'])) echo "selected"; ?>>New York </option>
                             <option value="bucharest" <?php if(isset($_POST['ciudades'])&& in_array("bucharest", $_POST['ciudades'])) echo "selected"; ?>>Bucharest</option>
                             <option value="madrid" <?php if(isset($_POST['ciudades'])&& in_array("madrid", $_POST['ciudades'])) echo "selected"; ?>>Madrid</option>
-
                         </select> <br />
-                    
 
                         <input type="submit" name = 'enviar' value="enviar"/></br></br>
-
                         <input type="reset" name = 'reset' value="resetear"/></br></br>
-
-
-
-
                     </form>
                     <?php
         }
         ?>
-
-
     </body>
     </html>

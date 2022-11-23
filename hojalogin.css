@@ -1,0 +1,25 @@
+body {
+  background-color: aquamarine;
+}
+
+#fondo {
+  width: 100%;
+  height: 100%;
+  top: 0px;
+
+  justify-content: center;
+  align-items: center;
+}
+#contenedor {
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 40%;
+  min-height: 200pt;
+  height: 60%;
+  text-align: center;
+  margin: auto;
+  margin-top: 70pt;
+}
+#boton {
+  background-color: red;
+}
