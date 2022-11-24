@@ -64,11 +64,3 @@ for ($i = 1; $i <= $numero; $i++) {
 $cantidad = rand(3,10);
 
 arcoiris($cantidad);
-
-
-
-
-
-
-
-?>
