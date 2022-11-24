@@ -1,5 +1,5 @@
 body {
-  background-color: aquamarine;
+  background-color: rgb(107, 184, 184);
 }
 
 #fondo {
@@ -19,6 +19,14 @@ body {
   text-align: center;
   margin: auto;
   margin-top: 70pt;
+}
+#contenedorerror {
+  border: 1px solid black;
+  border-radius: 10px;
+  text-align: center;
+  background-color: rgb(169, 124, 211);
+  width: 40%;
+  margin: auto;
 }
 #boton {
   background-color: red;
