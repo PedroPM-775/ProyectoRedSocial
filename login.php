@@ -9,6 +9,7 @@
         Versión 1.0
 
     */
+include "DAO.php";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,23 +28,6 @@
 
     $archivo = "usuarios.csv";
     $datos = array();
-
-    //! Funcion para leer el archivo CSV
-    function leerCSV($archivo)
-    {
-        $arrayDatos = array();
-        if ($fp = fopen($archivo, "r")) {
-            while ($filaDatos = fgetcsv($fp, 0, ",")) {
-                $arrayDatos[] = $filaDatos;
-            }
-        } else {
-            echo "Error, no se puede acceder al archivo " . $archivo . "<br>";
-            return false;
-        }
-        fclose($fp);
-        return $arrayDatos;
-    }
-
     $datos = leerCSV($archivo);
     $encontrado = false;
     //@ Compruebo si los datos estan en la base de datos

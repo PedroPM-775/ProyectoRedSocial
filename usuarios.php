@@ -294,24 +294,40 @@ if ($_SESSION['rol'] != 'Administrador') {
         <br> <br>
         <div id="contenedorform">
             <form name="usuarios" action='usuarios.php' method="post">
-                <label> Nombre de Usuario </label> <input type="text" name="nome" value="<?php if (isset($_POST['nome'])) echo $_POST['nome'] ?>" required /> </br></br>
+                <label> Nombre de Usuario </label> <input type="text" name="nome" value="<?php if (
+                                                                                                isset($_POST['nome'])
+                                                                                            ) echo $_POST['nome'] ?>" required /> </br></br>
 
-                <label> Contraseña </label> <input type="password" name="contrasinal" value="<?php if (isset($_POST['contrasinal'])) echo $_POST['contrasinal'] ?>" required /></br></br>
+                <label> Contraseña </label> <input type="password" name="contrasinal" value="<?php if (
+                                                                                                    isset($_POST['contrasinal'])
+                                                                                                ) echo $_POST['contrasinal'] ?>" required /></br></br>
 
-                <label> Confirme la Contraseña </label> <input type="password" name="contrasinalrep" value="<?php if (isset($_POST['contrasinalrep'])) echo $_POST['contrasinalrep'] ?>" required /></br></br>
+                <label> Confirme la Contraseña </label> <input type="password" name="contrasinalrep" value="<?php if (
+                                                                                                                isset($_POST['contrasinalrep'])
+                                                                                                            ) echo $_POST['contrasinalrep'] ?>" required /></br></br>
 
-                <label> Correo Electronico </label> <input type="email" name="email" value="<?php if (isset($_POST['email'])) echo $_POST['email'] ?>" required /></br></br>
+                <label> Correo Electronico </label> <input type="email" name="email" value="<?php if (
+                                                                                                isset($_POST['email'])
+                                                                                            ) echo $_POST['email'] ?>" required /></br></br>
 
-                <label> Telefono </label> <input type="tel" name="telefono" value="<?php if (isset($_POST['telefono'])) echo $_POST['telefono'] ?>" required /></br></br>
+                <label> Telefono </label> <input type="tel" name="telefono" value="<?php if (
+                                                                                        isset($_POST['telefono'])
+                                                                                    ) echo $_POST['telefono'] ?>" required /></br></br>
 
 
                 <fieldset>
                     <legend> ¿Que buscas en Uchagram? </legend>
-                    <input type="radio" id="valor1" name="valores[]" value="valor1" <?php if (isset($_POST['valores']) && in_array("valor1", $_POST['valores'])) echo "checked"; ?>>
+                    <input type="radio" id="valor1" name="valores[]" value="valor1" <?php if (
+                                                                                        isset($_POST['valores']) && in_array("valor1", $_POST['valores'])
+                                                                                    ) echo "checked"; ?>>
                     <label for="valor1">Pasarmelo Bien</label><br>
-                    <input type="radio" id="valor2" name="valores[]" value="valor2" <?php if (isset($_POST['valores']) && in_array("valor2", $_POST['valores'])) echo "checked"; ?>>
+                    <input type="radio" id="valor2" name="valores[]" value="valor2" <?php if (
+                                                                                        isset($_POST['valores']) && in_array("valor2", $_POST['valores'])
+                                                                                    ) echo "checked"; ?>>
                     <label for="valor2">Hacer amigos</label><br>
-                    <input type="radio" id="valor3" name="valores[]" value="valor3" <?php if (isset($_POST['valores']) && in_array("valor3", $_POST['valores'])) echo "checked"; ?>>
+                    <input type="radio" id="valor3" name="valores[]" value="valor3" <?php if (
+                                                                                        isset($_POST['valores']) && in_array("valor3", $_POST['valores'])
+                                                                                    ) echo "checked"; ?>>
                     <label for="valor3">Jugar a los juegos de la pagina</label></br></br>
                 </fieldset>
 
@@ -320,9 +336,7 @@ if ($_SESSION['rol'] != 'Administrador') {
                     <input type="checkbox" id="checkbox1" name="cajas[]" value="cajas1" <?php if (
                                                                                             isset($_POST['cajas'])
                                                                                             && in_array("cajas1", $_POST['cajas'])
-                                                                                        ) echo "checked";
-
-                                                                                        ?>>
+                                                                                        ) echo "checked"; ?>>
 
                     <label for="checkbox1"> Rock</label><br>
 
@@ -334,17 +348,22 @@ if ($_SESSION['rol'] != 'Administrador') {
                     <input type="checkbox" id="checkbox3" name="cajas[]" value="cajas3" <?php if (
                                                                                             isset($_POST['cajas'])
                                                                                             && in_array("cajas3", $_POST['cajas'])
-                                                                                        ) echo "checked";
-                                                                                        ?>>
+                                                                                        ) echo "checked"; ?>>
                     <label for="checkbox3"> Flamenco</label></br></br>
                 </fieldset>
 
                 <br>
-                <label> Fecha de Nacimiento </label> <input type="date" name="nacimiento" value="<?php if (isset($_POST['nacimiento'])) echo $_POST['nacimiento'] ?>" required /></br></br>
+                <label> Fecha de Nacimiento </label> <input type="date" name="nacimiento" value="<?php if (
+                                                                                                        isset($_POST['nacimiento'])
+                                                                                                    ) echo $_POST['nacimiento'] ?>" required /></br></br>
 
-                <label> Descripcion sobre ti </label> <textarea name="descripcion" required><?php if (isset($_POST['descripcion'])) echo $_POST['descripcion'] ?></textarea></br></br>
+                <label> Descripcion sobre ti </label> <textarea name="descripcion" required><?php if (
+                                                                                                isset($_POST['descripcion'])
+                                                                                            ) echo $_POST['descripcion'] ?></textarea></br></br>
 
-                <label> Nombre de Usuario </label> <input type="text" name="username" value="<?php if (isset($_POST['username'])) echo $_POST['username'] ?>" required /></br></br>
+                <label> Nombre de Usuario </label> <input type="text" name="username" value="<?php if (
+                                                                                                    isset($_POST['username'])
+                                                                                                ) echo $_POST['username'] ?>" required /></br></br>
 
                 <label for="lang">Genero</label>
                 <select name="genero" id="lang">
