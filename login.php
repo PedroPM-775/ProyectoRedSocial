@@ -37,7 +37,7 @@ include "DAO.php";
 
         if (isset($_POST['nome'])) {
             $nombre = $_POST['nome'];
-            $nombretrim = ltrim($nombre);
+            $nombretrim = trim($nombre);
             if (!preg_match("/^[a-zA-Z]+$/", $nombretrim)) {
                 $valido = false;
             }
@@ -45,7 +45,7 @@ include "DAO.php";
 
         if (isset($_POST['contrasinal'])) {
             $contrasena = $_POST['contrasinal'];
-            $nombretrim = ltrim($nombre);
+            $nombretrim = trim($nombre);
             if (!preg_match('/[a-zA-Z0-9]+$/', $nombretrim)) {
                 $valido = false;
             }
@@ -54,8 +54,8 @@ include "DAO.php";
         if ($valido) {
             $loop = false;
             $numfila;
-            $nombre = $_POST['nome'];
-            $password = $_POST['contrasinal'];
+            $nombre = trim($_POST['nome']);
+            $password = trim($_POST['contrasinal']);
             $ps = crypt($password, "DmGx5dZx");
             while (!$loop) {
                 for ($i = 1; $i < count($datos); $i++) {

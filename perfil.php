@@ -59,15 +59,15 @@ $foto = "fotos/foto_" . $usuario . ".jpg";
 
             <legend>Elige tu foto de perfil </legend>
             <input type="file" name="foto" id="foto">
-            <img src="<?php
-                        if (file_exists($foto)) {
-                            echo $foto;
-                        } else {
-                            echo "fotos/default.png";
-                        }
+            <img id="fotoperfil" src="<?php
+                                        if (file_exists($foto)) {
+                                            echo $foto;
+                                        } else {
+                                            echo "fotos/default.png";
+                                        }
 
 
-                        ?>">
+                                        ?>">
         </form>
     </div>
 </body>
