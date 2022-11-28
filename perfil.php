@@ -9,6 +9,7 @@ if (!isset($_SESSION['usuario'])) {
 }
 $usuario = $_SESSION['usuario'];
 $foto = "fotos/foto_" . $usuario . ".jpg";
+$errores = array();
 ?>
 
 <!DOCTYPE html>
@@ -23,53 +24,98 @@ $foto = "fotos/foto_" . $usuario . ".jpg";
 </head>
 
 <body>
-    <div id="contenedorform">
-        <form action="" method="post">
+    <?php
+    if (isset($_POST['modificar'])) {
 
-            <legend> ¿Que buscas en Uchagram? </legend>
-            <input type="radio" id="valor1" name="valores[]" value="valor1" <?php if (
-                                                                                isset($_POST['valores']) && in_array("valor1", $_POST['valores'])
-                                                                            ) echo "checked"; ?>>
-            <label for="valor1">Pasarmelo Bien</label><br>
-            <input type="radio" id="valor2" name="valores[]" value="valor2" <?php if (
-                                                                                isset($_POST['valores']) && in_array("valor2", $_POST['valores'])
-                                                                            ) echo "checked"; ?>>
-            <label for="valor2">Hacer amigos</label><br>
-            <input type="radio" id="valor3" name="valores[]" value="valor3" <?php if (
-                                                                                isset($_POST['valores']) && in_array("valor3", $_POST['valores'])
-                                                                            ) echo "checked"; ?>>
-            <label for="valor3">Jugar a los juegos de la pagina</label></br></br>
+        if (isset($_POST['foto'])) {
+        }
 
-            <legend> Elige tus opciones de visualizacion: </legend>
-            <label for="lang">Tema</label>
-            <select name="tema" id="lang">
-                <option value="claro" <?php if (isset($_POST['tema']) && strcasecmp("claro", $_POST['tema'])) echo "selected"; ?>>Claro</option>
-                <option value="oscuro" <?php if (isset($_POST['tema']) && strcasecmp("oscuro", $_POST['tema'])) echo "selected"; ?>>Oscuro</option>
-                <option value="accesible" <?php if (isset($_POST['tema']) && strcasecmp("accesible", $_POST['tema'])) echo "selected"; ?>>Accesible</option>
+        //@ Codigo para hacer si la pagina viene del metodo modificar, compruebo si los datos sonc correctos
+        if (!isset($_POST['tamano'])) {
+            //$ $tamano = tamaño por defecto
+        }
 
-            </select> </br></br>
-            <label for="tamano">Tamaño de letra</label>
-            <input type="number" id="tamano" name="tamano" value="tamaño por defecto" /><br> <br>
-            <label for="lang">Fuente</label>
-            <select name="fuente" id="lang">
-                <option value="calibri" <?php if (isset($_POST['fuente']) && strcasecmp("calibri", $_POST['fuente'])) echo "selected"; ?>>Calibri</option>
-                <option value="arial" <?php if (isset($_POST['fuente']) && strcasecmp("arial", $_POST['fuente'])) echo "selected"; ?>>Arial</option>
-            </select>
+        if (isset($_POST['tamano'])) {
+            $numero = $_POST['tamano'];
+            if (!preg_match('/^[0-9]+$/', $numero)) {
+                array_push($errores, "El formato del tamaño de fuente no es correcto, solo debe tener numeros");
+            }
+        }
+        if (!isset($_POST['tema'])) {
+            array_push($errores, "Falta el tema");
+        }
+        if (!isset($_POST['fuente'])) {
+            array_push($errores, "Falta la fuente");
+        }
+        //@ Escribo los datos en la cookie si no hay errores
+        if (count($errores) == 0) {
+            unset($_COOKIE['preferencias']);
+            $contenidocookie = $_SESSION['usuario'] . "/" . $_POST['tamano'] . "/" . $_POST['tema'] . "/" . $_POST['fuente'];
+            echo $contenidocookie;
+            setCookie("preferencias", $contenidocookie);
+            header("Location: ejercicio1.php");
+        }
+    } else if (isset($_POST['defecto'])) {
+        unset($_COOKIE['preferencias']);
+        $contenidocookie = $_SESSION['usuario'] . "/" . "14" . "/" . "claro" . "/" . "calibri";
+        echo $contenidocookie;
+        setCookie("preferencias", $contenidocookie);
+        header("Location: ejercicio1.php");
+    } else {
+        if (isset($_COOKIE['preferencias'])) {
+            echo $_COOKIE['preferencias'];
+        }
+    ?>
+        <div id="contenedorform">
+            <form action="perfil.php" method="post">
 
 
-            <legend>Elige tu foto de perfil </legend>
-            <input type="file" name="foto" id="foto">
-            <img id="fotoperfil" src="<?php
-                                        if (file_exists($foto)) {
-                                            echo $foto;
-                                        } else {
-                                            echo "fotos/default.png";
-                                        }
+                <legend>Elige tu foto de perfil </legend>
+                <input type="file" name="foto" id="foto">
+                <br>
+                <img id="fotoperfil" src="<?php
+                                            if (file_exists($foto)) {
+                                                echo $foto;
+                                            } else {
+                                                echo "fotos/default.png";
+                                            }
 
 
-                                        ?>">
-        </form>
-    </div>
+                                            ?>">
+                <br>
+
+                <legend> Elige tus opciones de personalización: </legend>
+                <label for="lang">Tema</label>
+                <select name="tema" id="lang">
+                    <option value="claro" <?php if (
+                                                isset($_POST['tema']) && strcasecmp("claro", $_POST['tema'])
+                                            ) echo "selected"; ?>>Claro</option>
+                    <option value="oscuro" <?php if (
+                                                isset($_POST['tema']) && strcasecmp("oscuro", $_POST['tema'])
+                                            ) echo "selected"; ?>>Oscuro</option>
+                    <option value="accesible" <?php if (
+                                                    isset($_POST['tema']) && strcasecmp("accesible", $_POST['tema'])
+                                                ) echo "selected"; ?>>Accesible</option>
+
+                </select> </br></br>
+                <label for="tamano">Tamaño de letra</label>
+                <input type="number" id="tamano" name="tamano" /><br> <br>
+                <label for="lang">Fuente</label>
+                <select name="fuente" id="lang">
+                    <option value="calibri" <?php if (
+                                                isset($_POST['fuente']) && strcasecmp("calibri", $_POST['fuente'])
+                                            ) echo "selected"; ?>>Calibri</option>
+                    <option value="arial" <?php if (
+                                                isset($_POST['fuente']) && strcasecmp("arial", $_POST['fuente'])
+                                            ) echo "selected"; ?>>Arial</option>
+                </select>
+                <input type="submit" name="modificar" value="modificar">
+                <input type="submit" name="defecto" value="defecto">
+                <br><br>
+
+            </form>
+        </div>
+    <?php } ?>
 </body>
 
 </html>

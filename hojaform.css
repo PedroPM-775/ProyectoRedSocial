@@ -28,6 +28,8 @@ legend {
   margin: auto;
 }
 #fotoperfil {
-  width: 40pt;
-  height: 40pt;
+  width: 10pt;
+  max-width: 10pt;
+  height: 10pt;
+  max-height: 10pt;
 }
