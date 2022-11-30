@@ -10,7 +10,6 @@
 
     */
 include "DAO.php";
-
 // Recupérase a información da sesión
 session_start();
 // Comprobase que o usuario se autenticou
@@ -36,7 +35,7 @@ if ($_SESSION['rol'] != 'Administrador') {
 
 <body>
     <?php
-
+    include "menu.php";
     $archivo = "usuarios.csv";
     $datos = array();
     $datos = leerCSV($archivo);

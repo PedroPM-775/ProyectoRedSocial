@@ -10,6 +10,8 @@
 
     */
 include "DAO.php";
+session_start();
+session_destroy();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -61,7 +63,7 @@ include "DAO.php";
                 for ($i = 1; $i < count($datos); $i++) {
                     $fila = $datos[$i];
                     if (hash_equals($nombre, $fila[8])) {
-                        if ($ps == $fila[1]) {
+                        if (hash_equals($ps, $fila[1])) {
                             $encontrado = true;
                             $loop = true;
                             $numfila = $i;
@@ -82,7 +84,7 @@ include "DAO.php";
         if ($_SESSION['rol'] == 'Administrador') {
             header("Location: usuarios.php");
         } else {
-            header("Location: ejercicio1.php");
+            header("Location: comprobar.php");
         }
     }
     //@ Si no esta en la base de datos devuelve este error y vuelve a pedir datos

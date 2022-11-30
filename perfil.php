@@ -1,7 +1,5 @@
 <?php
 include "DAO.php";
-include "menu.php";
-
 session_start();
 //@ Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
@@ -25,49 +23,87 @@ $errores = array();
 
 <body>
     <?php
+
+    include "menu.php";
+    $tamano = "14";
+    //@ Codigo en caso de venir desde modificar
     if (isset($_POST['modificar'])) {
 
-        if (isset($_POST['foto'])) {
+        //@ Si el usuario ha elegido una foto se ejecuta este codigo, creando la foto en la carpeta fotos
+        if (!empty($_FILES['foto']['name'])) {
+            $directorioSubida = "fotos/";
+            $extensionsValidas = array("jpg", "png");
+            $nomeFoto = $_FILES['foto']['name'];
+            $tamanoFoto = $_FILES['foto']['size'];
+            $directoriotemp = $_FILES['foto']['tmp_name'];
+            $tipoFoto = $_FILES['foto']['type'];
+            $arrayArquivo = pathinfo($nomeFoto);
+            $extension = $arrayArquivo['extension'];
+
+            if (!in_array($extension, $extensionsValidas)) {
+                array_push($errores, "la extension no sirve");
+            }
+            $nomeFoto = "foto_" . $_SESSION['usuario'];
+            if (count($errores) == 0) {
+                $nomeCompleto = $directorioSubida . $nomeFoto . ".jpg";
+                move_uploaded_file($directoriotemp, $nomeCompleto);
+            } else {
+                echo "error creando la foto";
+            }
         }
 
-        //@ Codigo para hacer si la pagina viene del metodo modificar, compruebo si los datos sonc correctos
+        //@ Codigo para cambiar las preferencias, primero las valida
         if (!isset($_POST['tamano'])) {
-            //$ $tamano = tamaño por defecto
         }
 
-        if (isset($_POST['tamano'])) {
-            $numero = $_POST['tamano'];
-            if (!preg_match('/^[0-9]+$/', $numero)) {
-                array_push($errores, "El formato del tamaño de fuente no es correcto, solo debe tener numeros");
+        if (!empty($_POST['tamano'])) {
+            if (isset($_POST['tamano'])) {
+                $numero = trim($_POST['tamano']);
+
+
+                if (!preg_match('/^[0-9]+$/', $numero)) {
+
+                    array_push($errores, "El formato del tamaño de fuente no es correcto, solo debe tener numeros");
+                }
             }
         }
         if (!isset($_POST['tema'])) {
+
             array_push($errores, "Falta el tema");
         }
         if (!isset($_POST['fuente'])) {
+
             array_push($errores, "Falta la fuente");
         }
         //@ Escribo los datos en la cookie si no hay errores
         if (count($errores) == 0) {
-            unset($_COOKIE['preferencias']);
-            $contenidocookie = $_SESSION['usuario'] . "/" . $_POST['tamano'] . "/" . $_POST['tema'] . "/" . $_POST['fuente'];
-            echo $contenidocookie;
-            setCookie("preferencias", $contenidocookie);
-            header("Location: ejercicio1.php");
+            unset($_COOKIE['tamano']);
+            unset($_COOKIE['tema']);
+            unset($_COOKIE['fuente']);
+            if (empty($_POST['tamano'])) {
+                setcookie('tamano', '14');
+            } else {
+                setcookie('tamano', $_POST['tamano']);
+            }
+            setCookie("tema", $_POST['tema']);
+            setCookie("fuente", $_POST['fuente']);
+            header("Location: index.php");
         }
-    } else if (isset($_POST['defecto'])) {
-        unset($_COOKIE['preferencias']);
-        $contenidocookie = $_SESSION['usuario'] . "/" . "14" . "/" . "claro" . "/" . "calibri";
-        echo $contenidocookie;
-        setCookie("preferencias", $contenidocookie);
-        header("Location: ejercicio1.php");
+    }
+    //@ Codigo para resetear las preferencias a por defecto
+    else if (isset($_POST['defecto'])) {
+        unset($_COOKIE['tamano']);
+        unset($_COOKIE['tema']);
+        unset($_COOKIE['fuente']);
+        setcookie('tamano', '14');
+        setCookie("tema", 'claro');
+        setCookie("fuente", 'calibri');
+        header("Location: index.php");
     } else {
-        if (isset($_COOKIE['preferencias'])) {
-            echo $_COOKIE['preferencias'];
-        }
+
     ?>
         <div id="contenedorform">
-            <form action="perfil.php" method="post">
+            <form action="perfil.php" method="post" enctype="multipart/form-data">
 
 
                 <legend>Elige tu foto de perfil </legend>
