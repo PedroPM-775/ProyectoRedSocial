@@ -13,8 +13,24 @@
 <body>
     <?php
     session_start();
-    include "menu.php"; ?>
-    <p> JKHALSDKHFALKSHDF </P>
+    include "DAO.php";
+    include "menu.php";
+
+
+    $publicaciones = "publicaciones.csv";
+    $usuarios = "usuarios.csv";
+
+    $datosUsuarios = array();
+    $datosPublicaciones = array();
+    $datosUsuarios = leerCSV($usuarios);
+    $datosPublicaciones = leerCSV($publicaciones);
+
+
+
+
+
+    ?>
+
 </body>
 
 </html>

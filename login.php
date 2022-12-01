@@ -10,6 +10,7 @@
 
     */
 include "DAO.php";
+//@ Borro la sesion existente para que el usuario se tenga que autenticar varias veces
 session_start();
 session_destroy();
 ?>

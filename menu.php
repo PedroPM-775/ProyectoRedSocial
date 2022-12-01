@@ -6,15 +6,22 @@
 </head>
 
 <body>
+
     <div class="topnav">
         <a href="logoff.php">Salir</a>
         <a href="usuarios.php">Usuarios</a>
         <a href="perfil.php">Perfil</a>
         <a href="index.php">Pagina Principal</a>
+        <a href="publicar.php">Publicar</a>
         <img src="<?php
-                    $nombrefoto = "fotos/foto_" . $_SESSION['usuario'] . ".jpg";
-                    if (file_exists($nombrefoto)) {
-                        echo $nombrefoto;
+
+                    if (isset($_SESSION['usuario'])) {
+
+                        $nombrefoto = "fotos/foto_" . $_SESSION['usuario'] . ".jpg";
+                        if (file_exists($nombrefoto)) {
+
+                            echo $nombrefoto;
+                        }
                     } else {
                         echo "fotos/default.png";
                     }

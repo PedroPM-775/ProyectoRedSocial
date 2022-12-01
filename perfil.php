@@ -53,16 +53,10 @@ $errores = array();
         }
 
         //@ Codigo para cambiar las preferencias, primero las valida
-        if (!isset($_POST['tamano'])) {
-        }
-
         if (!empty($_POST['tamano'])) {
             if (isset($_POST['tamano'])) {
                 $numero = trim($_POST['tamano']);
-
-
                 if (!preg_match('/^[0-9]+$/', $numero)) {
-
                     array_push($errores, "El formato del tamaño de fuente no es correcto, solo debe tener numeros");
                 }
             }
