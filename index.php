@@ -15,6 +15,7 @@
     session_start();
     include "DAO.php";
     include "menu.php";
+    include "Publicacion.class.php";
 
 
     $publicaciones = "publicaciones.csv";
@@ -25,8 +26,11 @@
     $datosUsuarios = leerCSV($usuarios);
     $datosPublicaciones = leerCSV($publicaciones);
 
+    $ejemplo = new Publicacion("a", "a", "a", "a", "a");
 
-
+    for ($i = 0; $i < 4; $i++) {
+        $ejemplo->imprimirPublicacion();
+    }
 
 
     ?>

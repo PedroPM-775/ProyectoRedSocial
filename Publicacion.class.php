@@ -1,5 +1,4 @@
 <?php
-include "DAO.php";
 
 class Publicacion
 {
@@ -9,7 +8,7 @@ class Publicacion
     private $texto;
     private $multimedia;
     private $dataPublicacion;
-    private $codUsuario;
+    private $userName;
 
     //@ Getters
     public function getCodigo()
@@ -32,9 +31,9 @@ class Publicacion
     {
         return $this->dataPublicacion;
     }
-    public function getCodUsuario()
+    public function getuserName()
     {
-        return $this->codUsuario;
+        return $this->userName;
     }
 
     //@ Setters
@@ -58,14 +57,12 @@ class Publicacion
     {
         $this->dataPublicacion = $dataPublicacion;
     }
-    public function setCodUsuario($codUsuario)
+    public function setuserName($userName)
     {
-        $this->codUsuario = $codUsuario;
+        $this->userName = $userName;
     }
 
-    //@ metodos propiamente dichos
-
-    public function crearPublicacion($codigoN, $tituloN, $textoN, $multimediaN, $codUsuarioN)
+    public function __construct($codigoN, $tituloN, $textoN, $multimediaN, $userNamen)
     {
         //@ Funcion para crear una publicacion
         $this->setCodigo($codigoN);
@@ -73,7 +70,19 @@ class Publicacion
         $this->setTexto($textoN);
         $this->setMultimedia($multimediaN);
         $this->setDataPublicacion(date_default_timezone_get());
-        $this->setCodUsuario($codUsuarioN);
+        $this->setuserName($userNamen);
+    }
+
+
+    public function crearPublicacion($codigoN, $tituloN, $textoN, $multimediaN, $userNamen)
+    {
+        //@ Funcion para crear una publicacion
+        $this->setCodigo($codigoN);
+        $this->setTitulo($tituloN);
+        $this->setTexto($textoN);
+        $this->setMultimedia($multimediaN);
+        $this->setDataPublicacion(date_default_timezone_get());
+        $this->setuserName($userNamen);
     }
 
 
@@ -100,6 +109,35 @@ class Publicacion
     {
     }
 
+    public function imprimirPublicacion()
+    {
+
+        echo " <div class = 'cajapost'>
+        <img class ='imagenpost' src='";
+        if (isset($_SESSION['usuario'])) {
+            $nombrefoto = "fotos/foto_" . $_SESSION['usuario'] . ".jpg";
+            if (file_exists($nombrefoto)) {
+
+                echo $nombrefoto;
+            } else {
+                echo "fotos/default.png";
+            }
+        } else {
+            echo "fotos/default.png";
+        }
+        echo "'> <a id='nombreusuario'>";
+        echo $this->getuserName();
+
+
+        echo "</a>
+            <h3 class ='titulo'>";
+        echo $this->getTitulo();
+        echo "</h3>
+             <p class ='contenido'>";
+        echo $this->getTexto();
+        echo "</p>
+    </div>";
+    }
     public function almacenarPublicacion()
     {
         //@ Funcion para meter la publicacion en el csv
@@ -110,7 +148,7 @@ class Publicacion
         array_push($objeto, $this->getTexto());
         array_push($objeto, $this->getMultimedia());
         array_push($objeto, $this->getDataPublicacion());
-        array_push($objeto, $this->getCodUsuario());
+        array_push($objeto, $this->getuserName());
         escribirCSV($archivo, $objeto);
     }
 }

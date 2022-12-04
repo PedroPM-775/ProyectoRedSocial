@@ -1,2 +1,4 @@
-codigo,titulo,texto,multimedia,dataPublicacion,codUsuario
-1,Hola Mundo,qwertyuiop,qwerqwer,11/11/2011,2
+codigo,titulo,texto,multimedia,dataPublicacion,userName
+1,"Hola Mundo",qwertyuiop,qwerqwer,03-12-22 01:31:10,pedropm
+2,adfs,asdf,multimedia,2022-12-01T16:15,PedroAdmin
+3,qwer,qwer,multimedia,"03-12-22 01:31:10",PedroAdmin
