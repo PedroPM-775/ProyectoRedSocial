@@ -18,20 +18,22 @@
     include "Publicacion.class.php";
 
 
-    $publicaciones = "publicaciones.csv";
-    $usuarios = "usuarios.csv";
+    $publicaciones = "./CSV/publicaciones.csv";
+    $usuarios = "./CSV/usuarios.csv";
 
     $datosUsuarios = array();
     $datosPublicaciones = array();
     $datosUsuarios = leerCSV($usuarios);
     $datosPublicaciones = leerCSV($publicaciones);
 
-    $ejemplo = new Publicacion("a", "a", "a", "a", "a");
-
-    for ($i = 0; $i < 4; $i++) {
-        $ejemplo->imprimirPublicacion();
+    for ($i = count($datosPublicaciones) - 1; $i > 0; $i--) {
+        $publicacionarray = $datosPublicaciones[$i];
+        $publicacion = new Publicacion($publicacionarray[0], $publicacionarray[1], $publicacionarray[2], $publicacionarray[3], $publicacionarray[4], $publicacionarray[5]);
+        $booleano = $publicacion->publicado();
+        if ($booleano == true) {
+            $publicacion->imprimirPublicacion();
+        }
     }
-
 
     ?>
 

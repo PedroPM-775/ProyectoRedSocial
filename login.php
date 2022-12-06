@@ -29,7 +29,7 @@ session_destroy();
 
     <?php
 
-    $archivo = "usuarios.csv";
+    $archivo = "./CSV/usuarios.csv";
     $datos = array();
     $datos = leerCSV($archivo);
     $encontrado = false;

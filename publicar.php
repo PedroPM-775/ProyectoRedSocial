@@ -1,7 +1,4 @@
 <?php
-
-include "DAO.php";
-
 session_start();
 ?>
 <!DOCTYPE html>
@@ -18,10 +15,12 @@ session_start();
 <body>
     <?php
     include "menu.php";
+    include "DAO.php";
+    include "Publicacion.class.php";
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
     }
-    $archivo = "publicaciones.csv";
+    $archivo = "./CSV/publicaciones.csv";
     $datos = array();
     $datos = leerCSV($archivo);
     $cabecera = $datos[0];
@@ -39,9 +38,11 @@ session_start();
                 array_push($errores, "El titulo contiene caracteres no permitidos");
             }
         }
+
         if (!isset($_POST['descripcion'])) {
             array_push($errores, "descripcion");
         }
+
         if (isset($_POST['descripcion'])) {
             $descripcion = $_POST['descripcion'];
 
@@ -72,10 +73,7 @@ session_start();
         $string = $_POST['descripcion'];
         $stringtrim = trim($string);
         array_push($introducir, $stringtrim);
-
-
         array_push($introducir, "multimedia");
-
         if ($programar == true) {
             $string = $_POST['fecha'];
             $stringtrim = trim($string);
@@ -89,11 +87,12 @@ session_start();
         $string = $_SESSION['usuario'];
         $stringtrim = trim($string);
         array_push($introducir, $stringtrim);
-
         array_push($datos, $introducir);
-        escribirCSV($archivo, $datos);
+        $publicacion = new Publicacion($introducir[0], $introducir[1], $introducir[2], $introducir[3], $introducir[4], $introducir[5]);
 
-        echo "Cagaste manin <a href='index.php'>asdf</a>";
+        $publicacion->moderar();
+        $publicacion->almacenarPublicacion();
+        header("Location: index.php");
     } else {
 
         //@ Formulario para la creacion de publicaciones.
@@ -104,9 +103,9 @@ session_start();
                                                                                     isset($_POST['titulo'])
                                                                                 ) echo $_POST['titulo'] ?>" required /> </br></br>
 
-                <label>Texto de la Publicación</label> <textarea name="descripcion" required><?php if (
-                                                                                                    isset($_POST['descripcion'])
-                                                                                                ) echo $_POST['descripcion'] ?></textarea></br></br>
+                <label>Texto de la Publicación</label><textarea name="descripcion" required><?php if (
+                                                                                                isset($_POST['descripcion'])
+                                                                                            ) echo $_POST['descripcion'] ?></textarea></br></br>
 
                 <label>Fecha de Publicacion(opcional)</label> <input type="datetime-local" name="fecha" value="<?php if (
                                                                                                                     isset($_POST['fecha'])

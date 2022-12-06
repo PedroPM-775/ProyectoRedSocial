@@ -36,7 +36,7 @@ if ($_SESSION['rol'] != 'Administrador') {
 <body>
     <?php
     include "menu.php";
-    $archivo = "usuarios.csv";
+    $archivo = "./CSV/usuarios.csv";
     $datos = array();
     $datos = leerCSV($archivo);
     $cabecera = $datos[0];
