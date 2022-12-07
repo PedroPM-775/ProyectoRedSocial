@@ -8,7 +8,7 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="hojaform.css">
+    <link rel="stylesheet" href="./css/hojaOscura.css">
     <title>Crear publicacion</title>
 </head>
 
@@ -92,7 +92,30 @@ session_start();
 
         $publicacion->moderar();
         $publicacion->almacenarPublicacion();
-        header("Location: index.php");
+        var_dump($_FILES['foto']);
+        if (!empty($_FILES['foto']['name'])) {
+            $directorioSubida = "multimediaPublicaciones/";
+            $extensionsValidas = array("jpg", "png");
+            $nomeFoto = $_FILES['foto']['name'];
+            $tamanoFoto = $_FILES['foto']['size'];
+            $directoriotemp = $_FILES['foto']['tmp_name'];
+            $tipoFoto = $_FILES['foto']['type'];
+            $arrayArquivo = pathinfo($nomeFoto);
+            $extension = $arrayArquivo['extension'];
+
+            if (!in_array($extension, $extensionsValidas)) {
+                array_push($errores, "la extension no sirve");
+            }
+            $nomeFoto = "foto_" . $titulo . "_" . $fecha;
+            if (count($errores) == 0) {
+                $nomeCompleto = $directorioSubida . $nomeFoto . ".jpg";
+                move_uploaded_file($directoriotemp, $nomeCompleto);
+            } else {
+                echo "error creando la foto";
+            }
+        }
+
+        //   header("Location: index.php");
     } else {
 
         //@ Formulario para la creacion de publicaciones.
@@ -112,7 +135,7 @@ session_start();
                                                                                                                 ) echo $_POST['fecha'] ?>" /></br></br>
 
                 <legend>¿Quieres añadir una imagen a la publicacion?(opcional)</legend>
-                <input type="file" name="foto" id="foto">
+                <input type="file" name="foto" accept="image/png, image/jpeg" id="foto">
                 <br>
 
                 <input type="submit" name='enviar' value="enviar" /></br></br>

@@ -22,7 +22,7 @@ session_destroy();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="hojalogin.css">
+    <link rel="stylesheet" href="./css/hojaOscura.css">
 </head>
 
 <body>
@@ -85,7 +85,7 @@ session_destroy();
         if ($_SESSION['rol'] == 'Administrador') {
             header("Location: usuarios.php");
         } else {
-            header("Location: comprobar.php");
+            header("Location: index.php");
         }
     }
     //@ Si no esta en la base de datos devuelve este error y vuelve a pedir datos
