@@ -5,7 +5,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/hojaOscura.css">
+    <link rel="stylesheet" href="./CSS/hoja<?php
+
+                                            if (isset($_COOKIE['tema'])) {
+                                                echo $_COOKIE['tema'];
+                                            } else {
+                                                echo "Clara";
+                                            } ?>.css">
+
+
+    <style>
+        body {
+            font-size: <?php if (isset($_COOKIE['tamano'])) {
+                            echo $_COOKIE['tamano'];
+                        } else {
+                            echo "14";
+                        } ?>px;
+            font-family: <?php if (isset($_COOKIE['fuente'])) {
+                                echo $_COOKIE['fuente'];
+                            } else {
+                                echo "calibri";
+                            } ?>;
+        }
+    </style>
     <title>Pagina Principal</title>
 
 </head>
@@ -13,25 +35,16 @@
 <body>
     <?php
     session_start();
-    include "DAO.php";
+    include "DAO.class.php";
     include "menu.php";
-    include "Publicacion.class.php";
-
-
-    $publicaciones = "./CSV/publicaciones.csv";
-    $usuarios = "./CSV/usuarios.csv";
-
-    $datosUsuarios = array();
-    $datosPublicaciones = array();
-    $datosUsuarios = leerCSV($usuarios);
-    $datosPublicaciones = leerCSV($publicaciones);
+    $DAO = new DAO();
+    $datosUsuarios = $DAO->devolverArrayUsuarios();
+    $datosPublicaciones = $DAO->devolverArrayPublicaciones();
 
     for ($i = count($datosPublicaciones) - 1; $i > 0; $i--) {
-        $publicacionarray = $datosPublicaciones[$i];
-        $publicacion = new Publicacion($publicacionarray[0], $publicacionarray[1], $publicacionarray[2], $publicacionarray[3], $publicacionarray[4], $publicacionarray[5]);
-        $booleano = $publicacion->publicado();
+        $booleano = $datosPublicaciones[$i]->publicado();
         if ($booleano == true) {
-            $publicacion->imprimirPublicacion();
+            $datosPublicaciones[$i]->imprimirPublicacion();
         }
     }
 

@@ -16,13 +16,13 @@ include "DAO.php";
 session_start();
 //@ Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
-    die("Error, inicie sesion <a href='login.php'>aqui</a>.<br />");
+    header("Location: login.php");
 }
 if ($_SESSION['rol'] != 'Administrador') {
     die("Error, usuario sin permisos requeridos, por favor haga login <a href='login.php'>aqui</a>.<br />");
 }
 
-$archivo = "usuarios.csv";
+$archivo = "./CSV/usuarios.csv";
 $datos = leerCSV($archivo);
 
 //@ Se coge la fila del enlace, si no se ha enviado se da un error y un enlace para volver a la pagina de usuario

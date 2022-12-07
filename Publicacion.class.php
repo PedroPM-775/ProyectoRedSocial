@@ -131,7 +131,7 @@ class Publicacion
         $datos = leerCSV($archivo);
         $palabras = $datos[0];
         for ($i = 0; $i < count($palabras); $i++) {
-            $this->setTexto(str_ireplace($palabras[$i], "", $this->getTexto()));
+            $this->setTexto(str_ireplace($palabras[$i], "*****", $this->getTexto()));
         }
     }
 }

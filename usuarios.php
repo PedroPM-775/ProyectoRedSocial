@@ -14,7 +14,7 @@ include "DAO.php";
 session_start();
 // Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
-    die("Error, inicie sesion <a href='login.php'>aqui</a>.<br />");
+    header("Location: login.php");
 }
 if ($_SESSION['rol'] != 'Administrador') {
     die("Error, usuario sin permisos requeridos, por favor haga login <a href='login.php'>aqui</a>.<br />");
@@ -30,21 +30,41 @@ if ($_SESSION['rol'] != 'Administrador') {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuarios</title>
-    <link rel="stylesheet" href="./css/hojaOscura.css">
+    <link rel="stylesheet" href="./CSS/hoja<?php
+
+                                            if (isset($_COOKIE['tema'])) {
+                                                echo $_COOKIE['tema'];
+                                            } else {
+                                                echo "Clara";
+                                            } ?>.css">
+
+
+    <style>
+        body {
+            font-size: <?php if (isset($_COOKIE['tamano'])) {
+                            echo $_COOKIE['tamano'];
+                        } else {
+                            echo "14";
+                        } ?>px;
+            font-family: <?php if (isset($_COOKIE['fuente'])) {
+                                echo $_COOKIE['fuente'];
+                            } else {
+                                echo "calibri";
+                            } ?>;
+        }
+    </style>
 </head>
 
 <body>
     <?php
     include "menu.php";
-    $archivo = "./CSV/usuarios.csv";
-    $datos = array();
-    $datos = leerCSV($archivo);
-    $cabecera = $datos[0];
+    include "DAO.class.php";
+    $DAO = new DAO();
+    $datos = $DAO->devolverArrayUsuarios();
     $errores = array();
     $listanombres = array();
     for ($i = 1; $i < count($datos); $i++) {
-        $filanombres = $datos[$i];
-        array_push($listanombres, $filanombres[8]);
+        array_push($listanombres, $datos[$i]->getuserName());
     }
     //! Funcion para validar el formulario
 
@@ -209,33 +229,55 @@ if ($_SESSION['rol'] != 'Administrador') {
         $valoresaa = implode('-', $_POST['servidor']);
         array_push($introducir, $valoresaa);
         array_push($introducir, $_POST['rol']);
-
-        array_push($datos, $introducir);
-        escribirCSV($archivo, $datos);
+        $objeto = new Usuario($introducir[0], $introducir[1], $introducir[2], $introducir[3], $introducir[4], $introducir[5], $introducir[6], $introducir[7], $introducir[8], $introducir[9], $introducir[1], $introducir[11]);
+        array_push($datos, $objeto);
+        $DAO->escribirArrayUsuarios($datos);
 
 
     ?>
         <table aria-describedby="Tabla rellena con datos de tablas.csv">
             <caption>Tabla de datos</caption>
+            <tr>
+                <th>Codigo</th>
+                <th>Titulo</th>
+                <th>Texto</th>
+                <th>Multimedia</th>
+                <th>dataPublicacion</th>
+                <th>userName</th>
+                <th>Codigo</th>
+                <th>Titulo</th>
+                <th>Texto</th>
+                <th>Multimedia</th>
+                <th>dataPublicacion</th>
+                <th>userName</th>
+            </tr>
             <?php
-            echo "<tr>";
-            //@Imprimo la primera fila en la cabecera de la tabla
-            for ($i = 0; $i < count($cabecera); $i++) {
-                $variable = $cabecera[$i];
-                echo "<th>$variable</th>";
-            }
-            echo "</tr>";
+
+
             //@ Usando un bucle for dentro de otro, imprimo todos los elementos del archivo en distintas filas de la tabla
             for ($i = 1; $i < count($datos); $i++) {
-                $fila = $datos[$i];
-                echo "<tr>";
-                for ($j = 0; $j < count($fila); $j++) {
-                    $variable = $fila[$j];
-                    echo "<td>$variable</td>";
-                }
-                echo "</tr>";
+                $usuario = $datos[$i];
+            ?>
+                <tr>
+                    <td><?php echo $usuario->getNombre(); ?></td>
+                    <td><?php echo $usuario->getContrasena(); ?></td>
+                    <td><?php echo $usuario->getCorreo(); ?></td>
+                    <td><?php echo $usuario->getTelefono(); ?></td>
+                    <td><?php echo $usuario->getValores(); ?></td>
+                    <td><?php echo $usuario->getCajas(); ?></td>
+                    <td><?php echo $usuario->getNacimiento(); ?></td>
+                    <td><?php echo $usuario->getDescripcion(); ?></td>
+                    <td><?php echo $usuario->getuserName(); ?></td>
+                    <td><?php echo $usuario->getGenero(); ?></td>
+                    <td><?php echo $usuario->getServidor(); ?></td>
+                    <td><?php echo $usuario->getRol(); ?></td>
+                    <?php echo "<td> <a href = 'borrarUsuario.php?fila=$i'>Eliminar</a> </td>"; ?>
+                </tr>
+
+            <?php
             }
             ?>
+
         </table>
         </br>
         <a href="usuarios.php"> Volver al formulario de registro</a>
@@ -251,26 +293,45 @@ if ($_SESSION['rol'] != 'Administrador') {
         <div id="contenedortabla">
             <table aria-describedby="Tabla rellena con datos de tablas.csv">
                 <caption>Tabla de datos</caption>
+                <tr>
+                    <th>Codigo</th>
+                    <th>Titulo</th>
+                    <th>Texto</th>
+                    <th>Multimedia</th>
+                    <th>dataPublicacion</th>
+                    <th>userName</th>
+                    <th>Codigo</th>
+                    <th>Titulo</th>
+                    <th>Texto</th>
+                    <th>Multimedia</th>
+                    <th>dataPublicacion</th>
+                    <th>userName</th>
+                </tr>
                 <?php
-                echo "<tr>";
-                //@Imprimo la primera fila en la cabecera de la tabla
-                for ($i = 0; $i < count($cabecera); $i++) {
-                    $variable = $cabecera[$i];
-                    echo "<th>$variable</th>";
-                }
-                echo "</tr>";
+
+
                 //@ Usando un bucle for dentro de otro, imprimo todos los elementos del archivo en distintas filas de la tabla
                 for ($i = 1; $i < count($datos); $i++) {
-                    $fila = $datos[$i];
-                    echo "<tr>";
-                    for ($j = 0; $j < count($fila); $j++) {
-                        $variable = $fila[$j];
-                        echo "<td>$variable</td>";
-                    }
-                    echo "<td> <a href = 'borrar.php?fila=$i'>Eliminar</a> </td>";
-                    echo "</tr>";
-                }
+                    $usuario = $datos[$i];
+                ?>
+                    <tr>
+                        <td><?php echo $usuario->getNombre(); ?></td>
+                        <td><?php echo $usuario->getContrasena(); ?></td>
+                        <td><?php echo $usuario->getCorreo(); ?></td>
+                        <td><?php echo $usuario->getTelefono(); ?></td>
+                        <td><?php echo $usuario->getValores(); ?></td>
+                        <td><?php echo $usuario->getCajas(); ?></td>
+                        <td><?php echo $usuario->getNacimiento(); ?></td>
+                        <td><?php echo $usuario->getDescripcion(); ?></td>
+                        <td><?php echo $usuario->getuserName(); ?></td>
+                        <td><?php echo $usuario->getGenero(); ?></td>
+                        <td><?php echo $usuario->getServidor(); ?></td>
+                        <td><?php echo $usuario->getRol(); ?></td>
+                        <?php echo "<td> <a href = 'borrarUsuario.php?fila=$i'>Eliminar</a> </td>"; ?>
+                    </tr>
 
+                <?php
+                }
                 ?>
 
             </table>

@@ -9,7 +9,7 @@
         Versión 1.0
 
     */
-include "DAO.php";
+include "DAO.class.php";
 //@ Borro la sesion existente para que el usuario se tenga que autenticar varias veces
 session_start();
 session_destroy();
@@ -22,16 +22,15 @@ session_destroy();
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
-    <link rel="stylesheet" href="./css/hojaOscura.css">
+    <link rel="stylesheet" href="./CSS/hojalogin.css">
 </head>
 
 <body>
 
     <?php
+    $DAO = new DAO();
 
-    $archivo = "./CSV/usuarios.csv";
-    $datos = array();
-    $datos = leerCSV($archivo);
+    $datos = $DAO->devolverArrayUsuarios();
     $encontrado = false;
     //@ Compruebo si los datos estan en la base de datos
     if (isset($_POST['enviar'])) {
@@ -62,9 +61,8 @@ session_destroy();
             $ps = crypt($password, "DmGx5dZx");
             while (!$loop) {
                 for ($i = 1; $i < count($datos); $i++) {
-                    $fila = $datos[$i];
-                    if (hash_equals($nombre, $fila[8])) {
-                        if (hash_equals($ps, $fila[1])) {
+                    if (hash_equals($nombre, $datos[$i]->getuserName())) {
+                        if (hash_equals($ps, $datos[$i]->getContrasena())) {
                             $encontrado = true;
                             $loop = true;
                             $numfila = $i;
@@ -76,13 +74,12 @@ session_destroy();
         }
     }
     if ($encontrado) {
-        //@ poner mensaje de error
-        $fila = $datos[$numfila];
+        $usuario = $datos[$numfila];
         //@ codigo de autenticacion y mandar a la pagina de usuarios.php
         session_start();
-        $_SESSION['usuario'] = $nombre;
-        $_SESSION['rol'] = $fila[11];
-        if ($_SESSION['rol'] == 'Administrador') {
+        $_SESSION['usuario'] = $usuario->getuserName();
+        $_SESSION['rol'] = $usuario->getRol();
+        if ($usuario->Admin()) {
             header("Location: usuarios.php");
         } else {
             header("Location: index.php");

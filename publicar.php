@@ -8,7 +8,29 @@ session_start();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/hojaOscura.css">
+    <link rel="stylesheet" href="./CSS/hoja<?php
+
+                                            if (isset($_COOKIE['tema'])) {
+                                                echo $_COOKIE['tema'];
+                                            } else {
+                                                echo "Clara";
+                                            } ?>.css">
+
+
+    <style>
+        body {
+            font-size: <?php if (isset($_COOKIE['tamano'])) {
+                            echo $_COOKIE['tamano'];
+                        } else {
+                            echo "14";
+                        } ?>px;
+            font-family: <?php if (isset($_COOKIE['fuente'])) {
+                                echo $_COOKIE['fuente'];
+                            } else {
+                                echo "calibri";
+                            } ?>;
+        }
+    </style>
     <title>Crear publicacion</title>
 </head>
 
@@ -57,6 +79,32 @@ session_start();
                 $programar = true;
             }
         }
+
+        if (!empty($_FILES['foto']['name'])) {
+            $directorioSubida = "multimediaPublicaciones/";
+            $extensionsValidas = array("jpg", "png");
+            $nomeFoto = $_FILES['foto']['name'];
+            $directoriotemp = $_FILES['foto']['tmp_name'];
+            $arrayArquivo = pathinfo($nomeFoto);
+            $extension = $arrayArquivo['extension'];
+
+            if (!in_array($extension, $extensionsValidas)) {
+                array_push($errores, "la extension no sirve");
+            }
+            if ($programar == true) {
+                $fecha = date('d-m-y h:i:s');
+                $nomeFoto = "foto_" . $titulo . "_" .  $fecha;
+            } else {
+                $fecha = $_POST['fecha'];
+                $nomeFoto = "foto_" . $titulo . "_" .  $fecha;
+            }
+            if (count($errores) == 0) {
+                $nomeCompleto = $directorioSubida . $nomeFoto . ".jpg";
+                move_uploaded_file($directoriotemp, $nomeCompleto);
+            } else {
+                echo "error creando la foto";
+            }
+        }
     }
     //@ Si no hay errores y se ha enviado, imprime por pantalla un mensaje de todo correcto
     if (isset($_POST['enviar']) && count($errores) == 0) {
@@ -73,7 +121,11 @@ session_start();
         $string = $_POST['descripcion'];
         $stringtrim = trim($string);
         array_push($introducir, $stringtrim);
-        array_push($introducir, "multimedia");
+
+
+        array_push($introducir, $nomeCompleto);
+
+
         if ($programar == true) {
             $string = $_POST['fecha'];
             $stringtrim = trim($string);
@@ -87,41 +139,23 @@ session_start();
         $string = $_SESSION['usuario'];
         $stringtrim = trim($string);
         array_push($introducir, $stringtrim);
+
+
+
         array_push($datos, $introducir);
         $publicacion = new Publicacion($introducir[0], $introducir[1], $introducir[2], $introducir[3], $introducir[4], $introducir[5]);
 
         $publicacion->moderar();
         $publicacion->almacenarPublicacion();
-        var_dump($_FILES['foto']);
-        if (!empty($_FILES['foto']['name'])) {
-            $directorioSubida = "multimediaPublicaciones/";
-            $extensionsValidas = array("jpg", "png");
-            $nomeFoto = $_FILES['foto']['name'];
-            $tamanoFoto = $_FILES['foto']['size'];
-            $directoriotemp = $_FILES['foto']['tmp_name'];
-            $tipoFoto = $_FILES['foto']['type'];
-            $arrayArquivo = pathinfo($nomeFoto);
-            $extension = $arrayArquivo['extension'];
 
-            if (!in_array($extension, $extensionsValidas)) {
-                array_push($errores, "la extension no sirve");
-            }
-            $nomeFoto = "foto_" . $titulo . "_" . $fecha;
-            if (count($errores) == 0) {
-                $nomeCompleto = $directorioSubida . $nomeFoto . ".jpg";
-                move_uploaded_file($directoriotemp, $nomeCompleto);
-            } else {
-                echo "error creando la foto";
-            }
-        }
 
-        //   header("Location: index.php");
+        header("Location: index.php");
     } else {
 
         //@ Formulario para la creacion de publicaciones.
     ?>
         <div id="contenedorform">
-            <form name="publicar" action='publicar.php' method="post">
+            <form name="publicar" action='publicar.php' method="post" enctype="multipart/form-data">
                 <label>Titulo</label> <input type="text" name="titulo" value="<?php if (
                                                                                     isset($_POST['titulo'])
                                                                                 ) echo $_POST['titulo'] ?>" required /> </br></br>
@@ -135,7 +169,7 @@ session_start();
                                                                                                                 ) echo $_POST['fecha'] ?>" /></br></br>
 
                 <legend>¿Quieres añadir una imagen a la publicacion?(opcional)</legend>
-                <input type="file" name="foto" accept="image/png, image/jpeg" id="foto">
+                <input type="file" name="foto" id="foto">
                 <br>
 
                 <input type="submit" name='enviar' value="enviar" /></br></br>

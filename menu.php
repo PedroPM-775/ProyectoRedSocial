@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <link rel="stylesheet" href="./css/hojamenu.css">
+    <link rel="stylesheet" href="./CSS/hojamenu.css">
 </head>
 
 <body>

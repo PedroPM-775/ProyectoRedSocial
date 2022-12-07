@@ -16,13 +16,13 @@ include "DAO.php";
 session_start();
 //@ Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
-    die("Error, inicie sesion <a href='login.php'>aqui</a>.<br />");
+    header("Location: login.php");
 }
 if ($_SESSION['rol'] != 'Administrador') {
     die("Error, usuario sin permisos requeridos, por favor haga login <a href='login.php'>aqui</a>.<br />");
 }
 
-$archivo = "usuarios.csv";
+$archivo = "./CSV/publicaciones.csv";
 $datos = leerCSV($archivo);
 
 //@ Se coge la fila del enlace, si no se ha enviado se da un error y un enlace para volver a la pagina de usuario
@@ -33,10 +33,10 @@ if (isset($_GET['fila'])) {
         unset($datos[$fila]);
         $datosfinal = array_values($datos);
         escribirCSV($archivo, $datosfinal);
-        header("Location: usuarios.php");
+        header("Location: publicaciones.php");
     } else {
-        echo "Ha habido un error, <a href='usuarios.php'>pulse en este enlace para volver al perfil de usuario </a>";
+        echo "Ha habido un error, <a href='publicaciones.php'>pulse en este enlace para volver al perfil de usuario </a>";
     }
 } else {
-    echo "Ha habido un error, <a href='usuarios.php'>pulse en este enlace para volver al perfil de usuario </a>";
+    echo "Ha habido un error, <a href='publicaciones.php'>pulse en este enlace para volver al perfil de usuario </a>";
 }
