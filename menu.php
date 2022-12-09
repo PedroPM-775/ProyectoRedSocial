@@ -10,6 +10,15 @@
 
     <div class="topnav">
         <a href="logoff.php">Salir</a>
+        <a href="configurar.php" <?php
+                                    if (isset($_SESSION['usuario'])) {
+                                        if ($_SESSION['rol'] != 'Administrador') {
+                                            echo "style ='display:none;'";
+                                        }
+                                    } else {
+                                        echo "style ='display:none;'";
+                                    }
+                                    ?>>Configuracion</a>
         <a href="usuarios.php" <?php
                                 if (isset($_SESSION['usuario'])) {
                                     if ($_SESSION['rol'] != 'Administrador') {

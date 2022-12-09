@@ -37,16 +37,19 @@ session_start();
 <body>
     <?php
     include "menu.php";
-    include "DAO.php";
-    include "Publicacion.class.php";
+    include "DAO.class.php";
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
     }
-    $archivo = "./CSV/publicaciones.csv";
-    $datos = array();
-    $datos = leerCSV($archivo);
+    $DAO = new DAO();
+
+    $datos = $DAO->devolverArrayPublicaciones();
     $cabecera = $datos[0];
     $errores = array();
+    $listacodigos = array();
+    for ($i = 1; $i < count($datos); $i++) {
+        array_push($listacodigos, $datos[$i]->getCodigo());
+    }
     $programar = false;
     if (isset($_POST['enviar'])) {
 
@@ -79,6 +82,28 @@ session_start();
                 $programar = true;
             }
         }
+    }
+    //@ Si no hay errores y se ha enviado, imprime por pantalla un mensaje de todo correcto
+    if (isset($_POST['enviar']) && count($errores) == 0) {
+
+        $introducir = array();
+        //@ Cuento el numero de datos que hay en la base y lo utilizo para el codigo de la publicacion
+        $unico = false;
+        $encontrado = false;
+        while ($unico == false) {
+            $codigo = rand(1, 800000);
+            for ($i = 0; $i < count($listacodigos); $i++) {
+                if ($codigo == $listacodigos[$i]) {
+                    $encontrado = true;
+                }
+            }
+            if ($encontrado != true) {
+                $unico = true;
+            }
+        }
+
+
+        array_push($introducir, $codigo);
 
         if (!empty($_FILES['foto']['name'])) {
             $directorioSubida = "multimediaPublicaciones/";
@@ -91,28 +116,14 @@ session_start();
             if (!in_array($extension, $extensionsValidas)) {
                 array_push($errores, "la extension no sirve");
             }
-            if ($programar == true) {
-                $fecha = date('d-m-y h:i:s');
-                $nomeFoto = "foto_" . $titulo . "_" .  $fecha;
-            } else {
-                $fecha = $_POST['fecha'];
-                $nomeFoto = "foto_" . $titulo . "_" .  $fecha;
-            }
+
             if (count($errores) == 0) {
-                $nomeCompleto = $directorioSubida . $nomeFoto . ".jpg";
+                $nomeCompleto = $directorioSubida . $codigo . ".jpg";
                 move_uploaded_file($directoriotemp, $nomeCompleto);
             } else {
                 echo "error creando la foto";
             }
         }
-    }
-    //@ Si no hay errores y se ha enviado, imprime por pantalla un mensaje de todo correcto
-    if (isset($_POST['enviar']) && count($errores) == 0) {
-
-        $introducir = array();
-        //@ Cuento el numero de datos que hay en la base y lo utilizo para el codigo de la publicacion
-        $string = count($datos);
-        array_push($introducir, $string);
 
         $string = $_POST['titulo'];
         $stringtrim = trim($string);
@@ -123,7 +134,7 @@ session_start();
         array_push($introducir, $stringtrim);
 
 
-        array_push($introducir, $nomeCompleto);
+        array_push($introducir, $codigo);
 
 
         if ($programar == true) {
@@ -146,6 +157,11 @@ session_start();
         $publicacion = new Publicacion($introducir[0], $introducir[1], $introducir[2], $introducir[3], $introducir[4], $introducir[5]);
 
         $publicacion->moderar();
+        if (isset($_COOKIE['seguridade'])) {
+            $publicacion->seguridade($_COOKIE['seguridade']);
+        } else {
+            $publicacion->seguridade(2);
+        }
         $publicacion->almacenarPublicacion();
 
 

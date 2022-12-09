@@ -5,14 +5,7 @@ class DAO
 {
     private $rutaPublicaciones = "./CSV/publicaciones.csv";
     private $rutaUsuarios = "./CSV/usuarios.csv";
-    public function getruta()
-    {
-        return $this->rutafichero;
-    }
-    public function setRuta($ruta)
-    {
-        $this->rutafichero = $ruta;
-    }
+    private $rutaPalabras = "./CSV/palabras.csv";
 
     public function __construct()
     {
@@ -49,6 +42,34 @@ class DAO
         }
         fclose($fp);
         return $arrayDatos;
+    }
+
+    function leerCsvPalabras()
+    {
+        $arrayDatos = array();
+        if ($fp = fopen($this->rutaPalabras, "r")) {
+            while ($filaDatos = fgetcsv($fp, 0, ",")) {
+                $arrayDatos[] = $filaDatos;
+            }
+        } else {
+            echo "Error, no se puede acceder al archivo " . $this->rutaPalabras . "<br>";
+            return false;
+        }
+        fclose($fp);
+        return $arrayDatos;
+    }
+
+    function escribirCsvPalabras($arrayEscribir)
+    {
+        if ($fp = fopen($this->rutaPalabras, "w")) {
+
+            fputcsv($fp, $arrayEscribir);
+        } else {
+            echo "Error, no se pudo abrir el archivo";
+            return false;
+        }
+        fclose($fp);
+        return true;
     }
 
     function escribirArrayUsuarios($arrayObjetos)

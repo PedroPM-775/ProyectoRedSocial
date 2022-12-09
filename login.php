@@ -79,6 +79,19 @@ session_destroy();
         session_start();
         $_SESSION['usuario'] = $usuario->getuserName();
         $_SESSION['rol'] = $usuario->getRol();
+
+        if (isset($_COOKIE["visitas"])) { //Registra en la cookie de visita la hora y fecha el ultimao acceso
+            $visitas = explode("$$", $_COOKIE["visitas"]);
+            $visitas[] = date('d/m/y h:i:s');
+            setcookie("visitas", implode("$$", $visitas));
+        } else {
+            $visitas = array();
+            $visitas[] = date('d/m/y h:i:s');
+            setcookie("visitas", implode("$$", $visitas));
+        }
+
+
+
         if ($usuario->Admin()) {
             header("Location: usuarios.php");
         } else {

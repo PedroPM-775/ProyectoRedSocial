@@ -1,5 +1,5 @@
 <?php
-
+include "DAO.php";
 class Publicacion
 {
 
@@ -86,6 +86,18 @@ class Publicacion
 
     public function seguridade($nivel)
     {
+        switch ($nivel) {
+            case 0:
+                $this->setTexto(strip_tags($this->getTexto()));
+                break;
+
+            case 1:
+                $this->setTexto(strip_tags($this->getTexto(), "<h1>, <h2>, <h3>, <p>"));
+                break;
+
+            case 2:
+                break;
+        }
     }
 
     public function imprimirPublicacion()
@@ -106,7 +118,15 @@ class Publicacion
         echo "</h3>
              <p class ='contenido'>";
         echo $this->getTexto();
-        echo "</p> </div>";
+        echo "</p>";
+        echo "<img class = 'imagen' src ='";
+        $foto = "multimediaPublicaciones/" . $this->getCodigo() . ".jpg";
+        if (file_exists($foto)) {
+            echo $foto . "'>";
+        } else {
+            echo "fotos/default.png' style = 'display:none' >";
+        }
+        echo "</div>";
     }
 
     public function almacenarPublicacion()

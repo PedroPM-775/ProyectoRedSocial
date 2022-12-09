@@ -9,7 +9,6 @@
         Versión 1.0
 
     */
-include "DAO.php";
 // Recupérase a información da sesión
 session_start();
 // Comprobase que o usuario se autenticou
