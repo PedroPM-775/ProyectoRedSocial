@@ -104,4 +104,31 @@ class DAO
         fclose($fp);
         return true;
     }
+
+    function escribirArrayPublicaciones($arrayObjetos)
+    {
+        $arrayEscribir = array();
+        for ($i = 0; $i < count($arrayObjetos); $i++) {
+            $objeto = $arrayObjetos[$i];
+            $arrayIntermedio = array();
+            array_push($arrayIntermedio, $objeto->getCodigo());
+            array_push($arrayIntermedio, $objeto->getTitulo());
+            array_push($arrayIntermedio, $objeto->getTexto());
+            array_push($arrayIntermedio, $objeto->getMultimedia());
+            array_push($arrayIntermedio, $objeto->getDataPublicacion());
+            array_push($arrayIntermedio, $objeto->getuserName());
+            $arrayEscribir[] = $arrayIntermedio;
+        }
+
+        if ($fp = fopen($this->rutaPublicaciones, "w")) {
+            foreach ($arrayEscribir as $filaDatos) {
+                fputcsv($fp, $filaDatos);
+            }
+        } else {
+            echo "Error, no se pudo abrir el archivo";
+            return false;
+        }
+        fclose($fp);
+        return true;
+    }
 }

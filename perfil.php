@@ -1,5 +1,5 @@
 <?php
-include "DAO.php";
+
 session_start();
 //@ Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
@@ -17,34 +17,6 @@ $errores = array();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./CSS/hoja<?php
-
-                                            if (isset($_COOKIE['tema'])) {
-                                                echo $_COOKIE['tema'];
-                                            } else {
-                                                echo "Clara";
-                                            } ?>.css">
-
-
-    <style>
-        body {
-            font-size: <?php if (isset($_COOKIE['tamano'])) {
-                            echo $_COOKIE['tamano'];
-                        } else {
-                            echo "14";
-                        } ?>px;
-            font-family: <?php if (isset($_COOKIE['fuente'])) {
-                                echo $_COOKIE['fuente'];
-                            } else {
-                                echo "calibri";
-                            } ?>;
-        }
-    </style>
-
-    <title>Perfil</title>
-</head>
-
-<body>
     <?php
 
     include "menu.php";
@@ -103,9 +75,9 @@ $errores = array();
             }
             setCookie("tema", $_POST['tema']);
             setCookie("fuente", $_POST['fuente']);
-            header("Location: index.php");
         }
     }
+
     //@ Codigo para resetear las preferencias a por defecto
     else if (isset($_POST['defecto'])) {
         unset($_COOKIE['tamano']);
@@ -114,61 +86,94 @@ $errores = array();
         setcookie('tamano', '14');
         setCookie("tema", 'Clara');
         setCookie("fuente", 'calibri');
-        header("Location: index.php");
-    } else {
-
-    ?>
-        <div id="contenedorform">
-            <form action="perfil.php" method="post" enctype="multipart/form-data">
+    } ?>
 
 
-                <legend>Elige tu foto de perfil </legend>
-                <input type="file" name="foto" id="foto">
-                <br>
-                <img id="fotoperfil" src="<?php
-                                            if (file_exists($foto)) {
-                                                echo $foto;
+    <link rel="stylesheet" href="./CSS/hoja<?php
+                                            if (isset($_POST['modificar'])) {
+                                                echo $_POST['tema'];
+                                            } else if (isset($_POST['defecto'])) {
+                                                echo $_POST['tema'];
+                                            } else if (isset($_COOKIE['tema'])) {
+                                                echo $_COOKIE['tema'];
                                             } else {
-                                                echo "fotos/default.png";
-                                            }
+                                                echo "Clara";
+                                            } ?>.css">
 
 
-                                            ?>">
-                <br>
+    <style>
+        body {
+            font-size: <?php
+                        if (isset($_POST['modificar'])) {
+                            echo $_POST['tamano'];
+                        } else if (isset($_POST['defecto'])) {
+                            echo $_POST['tamano'];
+                        } else if (isset($_COOKIE['tamano'])) {
+                            echo $_COOKIE['tamano'];
+                        } else {
+                            echo "14";
+                        } ?>px;
+            font-family: <?php
+                            if (isset($_POST['modificar'])) {
+                                echo $_POST['fuente'];
+                            } else if (isset($_POST['defecto'])) {
+                                echo $_POST['fuente'];
+                            } else if (isset($_COOKIE['fuente'])) {
+                                echo $_COOKIE['fuente'];
+                            } else {
+                                echo "calibri";
+                            } ?>;
+        }
+    </style>
 
-                <legend> Elige tus opciones de personalización: </legend>
-                <label for="lang">Tema</label>
-                <select name="tema" id="lang">
-                    <option value="Clara" <?php if (
-                                                isset($_POST['tema']) && strcasecmp("clara", $_POST['tema'])
-                                            ) echo "selected"; ?>>Claro</option>
-                    <option value="Oscura" <?php if (
-                                                isset($_POST['tema']) && strcasecmp("oscura", $_POST['tema'])
-                                            ) echo "selected"; ?>>Oscuro</option>
-                </select> </br></br>
+    <title>Perfil</title>
+</head>
 
-                <label for="tamano">Tamaño de letra</label>
-                <input type="number" id="tamano" name="tamano" /><br> <br>
-                <label for="lang">Fuente</label>
-                <select name="fuente" id="lang">
-                    <option value="calibri" <?php if (
-                                                isset($_POST['fuente']) && strcasecmp("calibri", $_POST['fuente'])
-                                            ) echo "selected"; ?>>Calibri</option>
-                    <option value="arial" <?php if (
-                                                isset($_POST['fuente']) && strcasecmp("arial", $_POST['fuente'])
-                                            ) echo "selected"; ?>>Arial</option>
-                </select>
-                <input type="submit" name="modificar" value="modificar">
-                <input type="submit" name="defecto" value="defecto">
-                <br><br>
-
-            </form>
-        </div>
-    <?php }
-
+<body>
+    <div id="contenedorform">
+        <form action="perfil.php" method="post" enctype="multipart/form-data">
 
 
-    ?>
+            <legend>Elige tu foto de perfil </legend>
+            <input type="file" name="foto" id="foto">
+            <br>
+            <img id="fotoperfil" src="<?php
+                                        if (file_exists($foto)) {
+                                            echo $foto;
+                                        } else {
+                                            echo "fotos/default.png";
+                                        }
+
+
+                                        ?>">
+            <br>
+
+            <legend> Elige tus opciones de personalización: </legend>
+            <label for="lang">Tema</label>
+            <select name="tema" id="lang">
+                <option value="Clara" <?php if (
+                                            isset($_POST['tema']) && strcasecmp("clara", $_POST['tema'])
+                                        ) echo "selected"; ?>>Claro</option>
+                <option value="Oscura">Oscuro</option>
+            </select> </br></br>
+
+            <label for="tamano">Tamaño de letra</label>
+            <input type="number" id="tamano" name="tamano" /><br> <br>
+            <label for="lang">Fuente</label>
+            <select name="fuente" id="lang">
+                <option value="calibri" <?php if (
+                                            isset($_POST['fuente']) && strcasecmp("calibri", $_POST['fuente'])
+                                        ) echo "selected"; ?>>Calibri</option>
+                <option value="arial" <?php if (
+                                            isset($_POST['fuente']) && strcasecmp("arial", $_POST['fuente'])
+                                        ) echo "selected"; ?>>Arial</option>
+            </select>
+            <input type="submit" name="modificar" value="modificar">
+            <input type="submit" name="defecto" value="defecto">
+            <br><br>
+
+        </form>
+    </div>
 
     <h3>Datos de acceso de usuario:</h3>
     <fieldset id="visitas">

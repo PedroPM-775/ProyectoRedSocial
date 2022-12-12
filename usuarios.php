@@ -271,7 +271,7 @@ if ($_SESSION['rol'] != 'Administrador') {
                     <td><?php echo $usuario->getGenero(); ?></td>
                     <td><?php echo $usuario->getServidor(); ?></td>
                     <td><?php echo $usuario->getRol(); ?></td>
-                    <?php echo "<td> <a href = 'borrarUsuario.php?fila=$i'>Eliminar</a> </td>"; ?>
+                    <?php echo "<td> <a href = 'borrar.php?fila=$i'>Eliminar</a> </td>"; ?>
                 </tr>
 
             <?php
@@ -327,7 +327,7 @@ if ($_SESSION['rol'] != 'Administrador') {
                         <td><?php echo $usuario->getGenero(); ?></td>
                         <td><?php echo $usuario->getServidor(); ?></td>
                         <td><?php echo $usuario->getRol(); ?></td>
-                        <?php echo "<td> <a href = 'borrarUsuario.php?fila=$i'>Eliminar</a> </td>"; ?>
+                        <?php echo "<td> <a href = 'borrar.php?fila=$i'>Eliminar</a> </td>"; ?>
                     </tr>
 
                 <?php

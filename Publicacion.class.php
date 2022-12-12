@@ -1,5 +1,4 @@
 <?php
-include "DAO.php";
 class Publicacion
 {
 
@@ -9,6 +8,8 @@ class Publicacion
     private $multimedia;
     private $dataPublicacion;
     private $userName;
+
+
 
     //@ Getters
     public function getCodigo()
@@ -129,26 +130,12 @@ class Publicacion
         echo "</div>";
     }
 
-    public function almacenarPublicacion()
-    {
-        //@ Funcion para meter la publicacion en el csv
-        $archivo = "./CSV/publicaciones.csv";
-        $datos = leerCSV($archivo);
-        $objeto = array();
-        array_push($objeto, $this->getCodigo());
-        array_push($objeto, $this->getTitulo());
-        array_push($objeto, $this->getTexto());
-        array_push($objeto, $this->getMultimedia());
-        array_push($objeto, $this->getDataPublicacion());
-        array_push($objeto, $this->getuserName());
-        array_push($datos, $objeto);
-        escribirCSV($archivo, $datos);
-    }
+
 
     public function moderar()
     {
-        $archivo = "./CSV/palabras.csv";
-        $datos = leerCSV($archivo);
+        $DAO = new DAO();
+        $datos = $DAO->leerCsvPalabras();
         $palabras = $datos[0];
         for ($i = 0; $i < count($palabras); $i++) {
             $this->setTexto(str_ireplace($palabras[$i], "*****", $this->getTexto()));

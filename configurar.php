@@ -61,8 +61,6 @@ if ($_SESSION['rol'] != 'Administrador') {
         $arrayPalabras = explode(",", $_POST['palabras']);
 
         $valor = $DAO->escribirCsvPalabras($arrayPalabras);
-
-        header("location: index.php");
     }
     ?>
 
@@ -79,10 +77,12 @@ if ($_SESSION['rol'] != 'Administrador') {
                                                                     $DAO = new DAO();
                                                                     $datos = $DAO->leerCsvPalabras();
                                                                     $palabras = $datos[0];
-                                                                    for ($i = 0; $i < count($palabras); $i++) {
+                                                                    for ($i = 0; $i < count($palabras) - 1; $i++) {
                                                                         echo $palabras[$i];
                                                                         echo ",";
-                                                                    } ?></textarea>
+                                                                    }
+                                                                    echo $palabras[count($palabras) - 1];
+                                                                    ?></textarea>
             <input type="submit" value="guardar" name="guardar" />
         </form>
     </div>

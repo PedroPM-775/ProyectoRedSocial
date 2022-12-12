@@ -162,7 +162,9 @@ session_start();
         } else {
             $publicacion->seguridade(2);
         }
-        $publicacion->almacenarPublicacion();
+        $datos = $DAO->devolverArrayPublicaciones();
+        array_push($datos, $publicacion);
+        $DAO->escribirArrayPublicaciones($datos);
 
 
         header("Location: index.php");
