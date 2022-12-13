@@ -1,4 +1,15 @@
 <?php
+
+/*
+
+        Título: Tarefa 5 - 2
+
+        Autor:Pedro Pina Menéndez
+
+        Data modificación: 13/12/2022
+        Versión 1.0
+
+    */
 class Publicacion
 {
 
@@ -73,7 +84,7 @@ class Publicacion
         $this->setDataPublicacion($dataPublicacionN);
         $this->setuserName($userNamen);
     }
-
+    //@ Publicacion para comprobar si una publicacion ya se puede imprimir
     public function publicado()
     {
         $fechaobjeto = strtotime($this->getDataPublicacion());
@@ -84,7 +95,7 @@ class Publicacion
             return false;
         }
     }
-
+    //funcion para quitar etiquetas html
     public function seguridade($nivel)
     {
         switch ($nivel) {
@@ -100,8 +111,7 @@ class Publicacion
                 break;
         }
     }
-
-
+    //Funcion para eliminar palabras prohibidas
     public function moderar()
     {
         $DAO = new DAO();

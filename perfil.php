@@ -1,4 +1,16 @@
 <?php
+
+/*
+
+        Título: Tarefa 5 - 2
+
+        Autor:Pedro Pina Menéndez
+
+        Data modificación: 13/12/2022
+        Versión 1.0
+
+    */
+
 include "DAO.class.php";
 session_start();
 // Comprobase que o usuario se autenticou

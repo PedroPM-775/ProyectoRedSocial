@@ -1,5 +1,16 @@
 <?php
 
+/*
+
+        Título: Tarefa 5 - 2
+
+        Autor:Pedro Pina Menéndez
+
+        Data modificación: 13/12/2022
+        Versión 1.0
+
+    */
+
 include "DAO.class.php";
 session_start();
 // Comprobase que o usuario se autenticou
@@ -50,6 +61,7 @@ if (!$usuario->Admin()) {
 <body>
 
     <?php
+    //$ Esta pagina cambia los datos de la cookie "seguridad", asi como las palabras "censuradas"
     include "menu.php";
     if (isset($_POST['guardar'])) {
         unset($_COOKIE['seguridad']);
@@ -66,6 +78,7 @@ if (!$usuario->Admin()) {
         $DAO = new DAO();
         $arrayPalabras = explode(",", $_POST['palabras']);
 
+        //$ Escribo las palabras del csv de palabras censuradas en una funcion, y la paso a un textarea
         $valor = $DAO->escribirCsvPalabras($arrayPalabras);
     }
     ?>

@@ -1,4 +1,16 @@
 <?php
+
+/*
+
+        Título: Tarefa 5 - 2
+
+        Autor:Pedro Pina Menéndez
+
+        Data modificación: 13/12/2022
+        Versión 1.0
+
+    */
+
 include "Usuario.class.php";
 include "Publicacion.class.php";
 class DAO
@@ -10,7 +22,7 @@ class DAO
     public function __construct()
     {
     }
-
+    // Funcion que hace return a un array de objetos Publicacion
     function devolverArrayPublicaciones()
     {
         $arrayDatos = array();
@@ -27,7 +39,7 @@ class DAO
         return $arrayDatos;
     }
 
-
+    // Funcion que hace return a un array de objetos usuario
     function devolverArrayUsuarios()
     {
         $arrayDatos = array();
@@ -44,6 +56,7 @@ class DAO
         return $arrayDatos;
     }
 
+    // Funcion que hace return a un array de las palabras a censurar
     function leerCsvPalabras()
     {
         $arrayDatos = array();
@@ -58,7 +71,7 @@ class DAO
         fclose($fp);
         return $arrayDatos;
     }
-
+    //Funciones para modificar los csv aceptando arrays de cada tipo que corresponda
     function escribirCsvPalabras($arrayEscribir)
     {
         if ($fp = fopen($this->rutaPalabras, "w")) {
