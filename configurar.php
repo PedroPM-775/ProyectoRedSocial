@@ -2,12 +2,17 @@
 
 include "DAO.class.php";
 session_start();
+// Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
 }
-if ($_SESSION['rol'] != 'Administrador') {
-    header("Location: index.php");
+$usuario = unserialize($_SESSION['usuario']);
+if (!$usuario->Admin()) {
+    die("Error, usuario sin permisos requeridos, por favor haga login <a href='login.php'>aqui</a>.<br />");
 }
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,6 +50,7 @@ if ($_SESSION['rol'] != 'Administrador') {
 <body>
 
     <?php
+    include "menu.php";
     if (isset($_POST['guardar'])) {
         unset($_COOKIE['seguridad']);
 

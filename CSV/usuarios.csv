@@ -1,14 +1,3 @@
 nombre,contrasinal,correo,telefono,valores,cajas,nacimiento,descripcion,username,genero,servidor,rol
-pedroadmin,DmKm/CTd2DjHE,nopedro@gmail.com,987654321,valor1,cajas3,2022-11-02,saiufoiausdofiuhqwef,PedroAdmin,otro,america,Administrador
-pedro,DmOvqkY.tIWFw,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario
-pedroadmin,DmKm/CTd2DjHE,nopedro@gmail.com,987654321,valor1,cajas3,2022-11-02,saiufoiausdofiuhqwef,PedroAdmin,otro,america,Administrador
-pedro,DmOvqkY.tIWFw,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario
-pedro,DmOvqkY.tIWFw,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario
-pedroadmin,DmKm/CTd2DjHE,nopedro@gmail.com,987654321,valor1,cajas3,2022-11-02,saiufoiausdofiuhqwef,PedroAdmin,otro,america,Administrador
-pedro,DmOvqkY.tIWFw,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario
-pedroadmin,DmKm/CTd2DjHE,nopedro@gmail.com,987654321,valor1,cajas3,2022-11-02,saiufoiausdofiuhqwef,PedroAdmin,otro,america,Administrador
-pedro,DmOvqkY.tIWFw,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario
-pedroadmin,DmKm/CTd2DjHE,nopedro@gmail.com,987654321,valor1,cajas3,2022-11-02,saiufoiausdofiuhqwef,PedroAdmin,otro,america,Administrador
-pedro,DmOvqkY.tIWFw,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario
-pedroadmin,DmKm/CTd2DjHE,nopedro@gmail.com,987654321,valor1,cajas3,2022-11-02,saiufoiausdofiuhqwef,PedroAdmin,otro,america,Administrador
-pedro,DmOvqkY.tIWFw,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario
+pedroadmin,$5$rounds=5000$usesomesillystri$/0XgCnB8oIZ8wK1oqV3CPsuq8s/bCYKK6SYkLL0mYD1,nopedro@gmail.com,987654321,valor1,cajas3,2022-11-02,saiufoiausdofiuhqwef,PedroAdmin,otro,america,Administrador
+pedro,$5$rounds=5000$usesomesillystri$7T9MMLYXVSI0quYwPJzkla144.I9K4OReKMBfRjqx59,pedro@gmail.com,123465789,valor1,cajas1,2022-11-02,asdf,pedropm,hombre,america,Usuario

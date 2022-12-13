@@ -101,36 +101,6 @@ class Publicacion
         }
     }
 
-    public function imprimirPublicacion()
-    {
-        echo " <div class = 'cajapost'>
-        <img class ='imagenpost' src='";
-        $nombrefoto = "fotos/foto_" . $this->getuserName() . ".jpg";
-        if (file_exists($nombrefoto)) {
-            echo $nombrefoto;
-        } else {
-            echo "fotos/default.png";
-        }
-        echo "'> <a id='nombreusuario'>";
-        echo $this->getuserName();
-        echo "</a>
-            <h3 class ='titulo'>";
-        echo $this->getTitulo();
-        echo "</h3>
-             <p class ='contenido'>";
-        echo $this->getTexto();
-        echo "</p>";
-        echo "<img class = 'imagen' src ='";
-        $foto = "multimediaPublicaciones/" . $this->getCodigo() . ".jpg";
-        if (file_exists($foto)) {
-            echo $foto . "'>";
-        } else {
-            echo "fotos/default.png' style = 'display:none' >";
-        }
-        echo "</div>";
-    }
-
-
 
     public function moderar()
     {

@@ -1,10 +1,13 @@
 <?php
-
+include "DAO.class.php";
 session_start();
-//@ Comprobase que o usuario se autenticou
+// Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
 }
+$usuario = unserialize($_SESSION['usuario']);
+
+
 $usuario = $_SESSION['usuario'];
 $foto = "fotos/foto_" . $usuario . ".jpg";
 $errores = array();

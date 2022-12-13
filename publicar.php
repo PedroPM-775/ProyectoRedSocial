@@ -1,5 +1,12 @@
 <?php
+include "DAO.class.php";
 session_start();
+// Comprobase que o usuario se autenticou
+if (!isset($_SESSION['usuario'])) {
+    header("Location: login.php");
+}
+$usuario = unserialize($_SESSION['usuario']);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,7 +44,7 @@ session_start();
 <body>
     <?php
     include "menu.php";
-    include "DAO.class.php";
+
     if (!isset($_SESSION['usuario'])) {
         header("Location: login.php");
     }

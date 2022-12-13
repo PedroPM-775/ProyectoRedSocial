@@ -10,14 +10,18 @@
 
     */
 // Recupérase a información da sesión
+// Comprobase que o usuario se autenticou
+include "DAO.class.php";
 session_start();
 // Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
 }
-if ($_SESSION['rol'] != 'Administrador') {
+$usuario = unserialize($_SESSION['usuario']);
+if (!$usuario->Admin()) {
     die("Error, usuario sin permisos requeridos, por favor haga login <a href='login.php'>aqui</a>.<br />");
 }
+
 
 
 ?>
@@ -57,7 +61,6 @@ if ($_SESSION['rol'] != 'Administrador') {
 <body>
     <?php
     include "menu.php";
-    include "DAO.class.php";
     $DAO = new DAO();
     $datos = $DAO->devolverArrayPublicaciones();
 

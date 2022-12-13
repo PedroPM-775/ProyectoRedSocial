@@ -11,15 +11,17 @@
     */
 
 // Recupérase a información da sesión
+include "DAO.class.php";
+
 session_start();
 // Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
 }
-if ($_SESSION['rol'] != 'Administrador') {
+$usuario = unserialize($_SESSION['usuario']);
+if (!$usuario->Admin()) {
     die("Error, usuario sin permisos requeridos, por favor haga login <a href='login.php'>aqui</a>.<br />");
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -58,7 +60,7 @@ if ($_SESSION['rol'] != 'Administrador') {
 <body>
     <?php
     include "menu.php";
-    include "DAO.class.php";
+
     $DAO = new DAO();
     $datos = $DAO->devolverArrayUsuarios();
     $errores = array();
@@ -201,7 +203,7 @@ if ($_SESSION['rol'] != 'Administrador') {
         $string = $_POST['contrasinal'];
         $stringtrim = ltrim($string);
 
-        $ps = crypt($stringtrim, "DmGx5dZx");
+        $ps = crypt($stringtrim, '$5$rounds=5000$usesomesillystringforsalt');
 
         array_push($introducir, $ps);
         $string = $_POST['email'];
@@ -229,7 +231,7 @@ if ($_SESSION['rol'] != 'Administrador') {
         $valoresaa = implode('-', $_POST['servidor']);
         array_push($introducir, $valoresaa);
         array_push($introducir, $_POST['rol']);
-        $objeto = new Usuario($introducir[0], $introducir[1], $introducir[2], $introducir[3], $introducir[4], $introducir[5], $introducir[6], $introducir[7], $introducir[8], $introducir[9], $introducir[1], $introducir[11]);
+        $objeto = new Usuario($introducir[0], $introducir[1], $introducir[2], $introducir[3], $introducir[4], $introducir[5], $introducir[6], $introducir[7], $introducir[8], $introducir[9], $introducir[10], $introducir[11]);
         array_push($datos, $objeto);
         $DAO->escribirArrayUsuarios($datos);
 

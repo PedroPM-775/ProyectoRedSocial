@@ -12,7 +12,8 @@
         <a href="logoff.php">Salir</a>
         <a href="configurar.php" <?php
                                     if (isset($_SESSION['usuario'])) {
-                                        if ($_SESSION['rol'] != 'Administrador') {
+                                        $a = unserialize($_SESSION['usuario']);
+                                        if (!$a->Admin()) {
                                             echo "style ='display:none;'";
                                         }
                                     } else {
@@ -21,7 +22,8 @@
                                     ?>>Configuracion</a>
         <a href="usuarios.php" <?php
                                 if (isset($_SESSION['usuario'])) {
-                                    if ($_SESSION['rol'] != 'Administrador') {
+                                    $a = unserialize($_SESSION['usuario']);
+                                    if (!$a->Admin()) {
                                         echo "style ='display:none;'";
                                     }
                                 } else {
@@ -30,7 +32,8 @@
                                 ?>>Usuarios</a>
         <a href="publicaciones.php" <?php
                                     if (isset($_SESSION['usuario'])) {
-                                        if ($_SESSION['rol'] != 'Administrador') {
+                                        $a = unserialize($_SESSION['usuario']);
+                                        if (!$a->Admin()) {
                                             echo "style ='display:none;'";
                                         }
                                     } else {
@@ -44,8 +47,9 @@
         <img src="<?php
 
                     if (isset($_SESSION['usuario'])) {
+                        $a = unserialize($_SESSION['usuario']);
 
-                        $nombrefoto = "fotos/foto_" . $_SESSION['usuario'] . ".jpg";
+                        $nombrefoto = "fotos/foto_" . $a->getuserName() . ".jpg";
                         if (file_exists($nombrefoto)) {
 
                             echo $nombrefoto;
@@ -56,7 +60,8 @@
                     ?>" />
         <p><?php
             if (isset($_SESSION['usuario'])) {
-                echo $_SESSION['usuario'];
+                $a = unserialize($_SESSION['usuario']);
+                echo $a->getuserName();
             } else {
                 echo "Usuario no registrado";
             }

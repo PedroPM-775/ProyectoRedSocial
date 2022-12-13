@@ -58,7 +58,7 @@ session_destroy();
             $numfila;
             $nombre = trim($_POST['nome']);
             $password = trim($_POST['contrasinal']);
-            $ps = crypt($password, "DmGx5dZx");
+            $ps = crypt($password, '$5$rounds=5000$usesomesillystringforsalt');
             while (!$loop) {
                 for ($i = 1; $i < count($datos); $i++) {
                     if (hash_equals($nombre, $datos[$i]->getuserName())) {
@@ -77,8 +77,7 @@ session_destroy();
         $usuario = $datos[$numfila];
         //@ codigo de autenticacion y mandar a la pagina de usuarios.php
         session_start();
-        $_SESSION['usuario'] = $usuario->getuserName();
-        $_SESSION['rol'] = $usuario->getRol();
+        $_SESSION['usuario'] = serialize($usuario);
 
         if (isset($_COOKIE["visitas"])) { //Registra en la cookie de visita la hora y fecha el ultimao acceso
             $visitas = explode("$$", $_COOKIE["visitas"]);

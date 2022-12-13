@@ -13,14 +13,19 @@
 include "DAO.class.php";
 
 //@ Recupérase a información da sesión
+include "DAO.class.php";
 session_start();
-//@ Comprobase que o usuario se autenticou
+// Comprobase que o usuario se autenticou
 if (!isset($_SESSION['usuario'])) {
     header("Location: login.php");
 }
-if ($_SESSION['rol'] != 'Administrador') {
+$usuario = unserialize($_SESSION['usuario']);
+if (!$usuario->Admin()) {
     die("Error, usuario sin permisos requeridos, por favor haga login <a href='login.php'>aqui</a>.<br />");
 }
+
+
+
 $DAO = new DAO();
 $datos = $DAO->devolverArrayPublicaciones();
 //@ Se coge la fila del enlace, si no se ha enviado se da un error y un enlace para volver a la pagina de usuario
